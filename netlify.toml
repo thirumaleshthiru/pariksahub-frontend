@@ -1,0 +1,7 @@
+# Sitemap redirect
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "https://server.pariksahub.com/sitemap.xml"
+  status = 200
+  force = true
+

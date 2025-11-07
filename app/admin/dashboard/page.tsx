@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, LogOut, BookOpen, Trophy, Clock, Settings, Plus, List, Edit, Zap } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import axiosInstance from '@/utils/axiosInstance';
 import { AxiosError } from 'axios';
 
@@ -33,7 +33,7 @@ function Dashboard() {
         setError(''); // Clear any previous errors
       } else {
         console.log('No valid user data received');
-        router.push('/login');
+        router.push('/admin/login');
       }
     } catch (error) {
       console.error('Auth check error:', error);
@@ -41,7 +41,7 @@ function Dashboard() {
       // Check if it's a 401 (unauthorized) error
       if (error instanceof AxiosError && error.response?.status === 401) {
         console.log('Unauthorized - redirecting to login');
-        router.push('/login');
+        router.push('/admin/login');
       } else {
         // For other errors, show error message but don't redirect immediately
         setError('Failed to load user data. Please try refreshing the page.');
@@ -57,12 +57,12 @@ function Dashboard() {
       // Clear any stored user data
       setUser(null);
       // Redirect to login
-      router.push('/login');
+      router.push('/admin/login');
     } catch (error) {
       console.error('Logout error:', error);
       // Even if logout fails, clear user data and redirect
       setUser(null);
-      router.push('/login');
+      router.push('/admin/login');
     }
   };
 
@@ -92,7 +92,7 @@ function Dashboard() {
             Try Again
           </button>
           <button
-            onClick={() => router.push('/login')}
+            onClick={() => router.push('/admin/login')}
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
           >
             Go to Login
@@ -158,16 +158,14 @@ function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Exam Management */}
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-              <Trophy className="h-5 w-5 mr-2" />
+            <h3 className="text-xl font-semibold text-white mb-4">
               Exam Management
             </h3>
             <div className="space-y-3">
               <button 
-                onClick={() => router.push('/add-exam')}
+                onClick={() => router.push('/admin/add-exam')}
                 className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-slate-900 font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center"
               >
-                <Plus className="h-4 w-4 mr-2" />
                 Add Exam
               </button>
             </div>
@@ -175,16 +173,14 @@ function Dashboard() {
 
           {/* Topic Management */}
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-              <BookOpen className="h-5 w-5 mr-2" />
+            <h3 className="text-xl font-semibold text-white mb-4">
               Topic Management
             </h3>
             <div className="space-y-3">
               <button 
-                onClick={() => router.push('/add-topic')}
+                onClick={() => router.push('/admin/add-topic')}
                 className="w-full bg-blue-500/20 hover:bg-blue-500/30 text-blue-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-blue-500/30 flex items-center justify-center"
               >
-                <Plus className="h-4 w-4 mr-2" />
                 Add Topic
               </button>
             </div>
@@ -192,23 +188,20 @@ function Dashboard() {
 
           {/* Subtopic Management */}
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-              <Settings className="h-5 w-5 mr-2" />
+            <h3 className="text-xl font-semibold text-white mb-4">
               Subtopic Management
             </h3>
             <div className="space-y-3">
               <button 
-                onClick={() => router.push('/add-subtopic')}
+                onClick={() => router.push('/admin/add-subtopic')}
                 className="w-full bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-purple-500/30 flex items-center justify-center"
               >
-                <Plus className="h-4 w-4 mr-2" />
                 Add Subtopic
               </button>
               <button 
-                onClick={() => router.push('/manage-subtopics')}
+                onClick={() => router.push('/admin/manage-subtopics')}
                 className="w-full bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-purple-500/30 flex items-center justify-center"
               >
-                <List className="h-4 w-4 mr-2" />
                 Manage Subtopics
               </button>
             </div>
@@ -216,23 +209,20 @@ function Dashboard() {
 
           {/* Question Management */}
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-              <Edit className="h-5 w-5 mr-2" />
+            <h3 className="text-xl font-semibold text-white mb-4">
               Question Management
             </h3>
             <div className="space-y-3">
               <button 
-                onClick={() => router.push('/add-question')}
+                onClick={() => router.push('/admin/add-question')}
                 className="w-full bg-green-500/20 hover:bg-green-500/30 text-green-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-green-500/30 flex items-center justify-center"
               >
-                <Plus className="h-4 w-4 mr-2" />
                 Add Question
               </button>
               <button 
-                onClick={() => router.push('/manage-questions')}
+                onClick={() => router.push('/admin/manage-questions')}
                 className="w-full bg-green-500/20 hover:bg-green-500/30 text-green-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-green-500/30 flex items-center justify-center"
               >
-                <List className="h-4 w-4 mr-2" />
                 Manage Questions
               </button>
             </div>
@@ -240,23 +230,20 @@ function Dashboard() {
 
           {/* Exam Pattern Management */}
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-              <Trophy className="h-5 w-5 mr-2" />
+            <h3 className="text-xl font-semibold text-white mb-4">
               Exam Pattern Management
             </h3>
             <div className="space-y-3">
               <button 
-                onClick={() => router.push('/create-exam-pattern')}
+                onClick={() => router.push('/admin/create-exam-pattern')}
                 className="w-full bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-indigo-500/30 flex items-center justify-center"
               >
-                <Plus className="h-4 w-4 mr-2" />
                 Create Exam Pattern
               </button>
               <button 
-                onClick={() => router.push('/manage-exam-patterns')}
+                onClick={() => router.push('/admin/manage-exam-patterns')}
                 className="w-full bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-indigo-500/30 flex items-center justify-center"
               >
-                <List className="h-4 w-4 mr-2" />
                 Manage Exam Patterns
               </button>
             </div>
@@ -264,23 +251,20 @@ function Dashboard() {
 
           {/* Cheatsheet Management */}
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-              <Zap className="h-5 w-5 mr-2" />
+            <h3 className="text-xl font-semibold text-white mb-4">
               Cheatsheet Management
             </h3>
             <div className="space-y-3">
               <button 
-                onClick={() => router.push('/create-cheatsheet')}
+                onClick={() => router.push('/admin/create-cheatsheet')}
                 className="w-full bg-orange-500/20 hover:bg-orange-500/30 text-orange-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-orange-500/30 flex items-center justify-center"
               >
-                <Plus className="h-4 w-4 mr-2" />
                 Create Cheatsheet
               </button>
               <button 
-                        onClick={() => router.push('/manage-cheatsheets')}
+                onClick={() => router.push('/admin/manage-cheatsheets')}
                 className="w-full bg-orange-500/20 hover:bg-orange-500/30 text-orange-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-orange-500/30 flex items-center justify-center"
               >
-                <List className="h-4 w-4 mr-2" />
                 Manage Cheatsheets
               </button>
             </div>

@@ -47,7 +47,7 @@ function Login() {
       // Handle successful login (redirect, store token, etc.)
       setTimeout(() => {
         // Redirect to dashboard or home page
-        router.push('/dashboard');
+        router.push('/admin/dashboard');
       }, 1500);
 
     } catch (error) {

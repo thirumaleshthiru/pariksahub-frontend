@@ -1,11 +1,18 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, LogOut, BookOpen, Trophy, Clock, Settings, Plus, List, Edit, Zap } from 'lucide-react';
 import axiosInstance from '@/utils/axiosInstance';
 import { AxiosError } from 'axios';
 
+interface UserData {
+  username: string;
+  [key: string]: any;
+}
+
 function Dashboard() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -110,7 +117,7 @@ function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
       {/* Header */}
-      <header className=" mt-20">
+      <header className="mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex md:items-center justify-between h-16 md:flex-row flex-col">
             {/* Logo */}
@@ -121,21 +128,31 @@ function Dashboard() {
             {/* User Menu */}
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 text-white">
- 
-                <span className="font-medium">Welcome, {user.username as string || ''}</span>
+                <span className="font-medium">Welcome, {user.username || ''}</span>
               </div>
-             
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 bg-red-500/20 hover:bg-red-500/30 text-red-200 font-semibold py-2 px-4 rounded-lg transition-all duration-300 border border-red-500/30"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Logout</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-white mb-2">
-            Welcome back, {user.username as string || ''}!
+            Welcome back, {user.username || ''}!
           </h2>
           <p className="text-slate-300 text-lg">
             Manage your exam content and questions
           </p>
         </div>
-
-       
 
         {/* Management Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -270,8 +287,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      </header>
-    </div>
     </div>
   );
 }

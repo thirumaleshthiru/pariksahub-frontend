@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { AlertCircle, Timer, ChevronLeft, ChevronRight, Send } from 'lucide-react';
 import axiosInstance from '../../../utils/axiosInstance';
-import { formatDisplayText } from '../../../utils/textUtils';
+ 
 
 interface QuestionItem {
   question: {

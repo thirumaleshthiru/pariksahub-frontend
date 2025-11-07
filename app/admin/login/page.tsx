@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Eye, EyeOff, User, Lock, LogIn } from 'lucide-react';
 import axiosInstance from '@/utils/axiosInstance';

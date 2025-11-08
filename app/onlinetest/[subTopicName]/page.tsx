@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { AlertCircle, Timer, ChevronLeft, ChevronRight, Send } from 'lucide-react';
+import { AlertCircle, Timer, ChevronLeft, ChevronRight, Send, Check, X } from 'lucide-react';
 import axiosInstance from '../../../utils/axiosInstance';
 import { formatDisplayText } from '../../../utils/textUtils';
  
@@ -138,13 +138,13 @@ function OnlineTest() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-amber-50 flex items-center justify-center pt-20">
+      <div className="min-h-screen bg-[#0A0E27] flex items-center justify-center pt-20">
         <div className="relative">
           <div 
-            className="w-16 h-16 border-4 border-gray-200 border-t-[#C0A063] rounded-full animate-spin"
+            className="w-16 h-16 border-4 border-gray-800 border-t-[#6366F1] rounded-full animate-spin"
           ></div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-8 h-8 bg-[#C0A063] rounded-full animate-pulse"></div>
+            <div className="w-8 h-8 bg-[#6366F1] rounded-full animate-pulse"></div>
           </div>
         </div>
       </div>
@@ -153,12 +153,20 @@ function OnlineTest() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-amber-50 flex items-center justify-center p-4 pt-20">
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200 p-8 text-center max-w-md">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <AlertCircle className="h-8 w-8 text-red-600" />
+      <div className="min-h-screen bg-[#0A0E27] flex items-center justify-center p-4">
+        <div className="text-center max-w-md mx-auto px-4">
+          <div className="bg-red-500 bg-opacity-10 border border-red-500 rounded-2xl p-4 inline-block mb-4">
+            <AlertCircle className="h-10 w-10 text-red-500" aria-hidden="true" />
           </div>
-          <p className="text-gray-700 text-lg">{error}</p>
+          <h1 className="text-2xl font-bold text-white mb-2">Something Went Wrong</h1>
+          <p className="text-gray-400 mb-6">{error}</p>
+          <Link
+            href="/test-topics"
+            className="bg-[#6366F1] text-white font-bold px-6 py-3 rounded-xl hover:bg-[#5558E3] transition duration-300 inline-block"
+            aria-label="Go back to test topics"
+          >
+            Back to Topics
+          </Link>
         </div>
       </div>
     );
@@ -166,31 +174,31 @@ function OnlineTest() {
 
   if (isFinished && score) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-amber-50 p-4 pt-20">
+      <div className="min-h-screen bg-[#0A0E27] text-white p-4 pt-20">
         <div className="max-w-4xl mx-auto">
           {/* Score Summary */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200 p-8 mb-6 text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-900 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="bg-[#161B33] border border-gray-700 rounded-2xl shadow-lg shadow-[#6366F1]/20 p-8 mb-6 text-center">
+            <div className="w-20 h-20 bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-white text-2xl font-bold">{score.percentage}%</span>
             </div>
-            <h2 className="text-3xl font-bold text-slate-800 mb-2">Test Complete!</h2>
-            <div className="text-slate-600 mb-8 text-lg">
+            <h2 className="text-3xl font-bold text-white mb-2">Test Complete!</h2>
+            <div className="text-gray-300 mb-8 text-lg">
               You got {score.correct} out of {score.answered} answered questions correct
             </div>
-            <div className="text-slate-500 mb-8 text-sm">
+            <div className="text-gray-400 mb-8 text-sm">
               {score.total - score.answered} questions were skipped
             </div>
             <Link
               href="/test-topics"
-              className="inline-block px-8 py-3 bg-gradient-to-r from-blue-900 to-amber-600 text-white rounded-xl font-semibold text-lg hover:from-blue-800 hover:to-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
+              className="inline-block px-8 py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white rounded-xl font-semibold text-lg hover:from-[#5558E3] hover:to-[#7C3AED] transform hover:scale-105 transition-all duration-200 shadow-lg"
             >
               Back to Topics
             </Link>
           </div>
 
           {/* Detailed Results */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200 p-8">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6 text-center">Question Review</h3>
+          <div className="bg-[#161B33] border border-gray-700 rounded-2xl shadow-lg shadow-[#6366F1]/20 p-8">
+            <h3 className="text-2xl font-bold text-white mb-6 text-center">Question Review</h3>
             <div className="space-y-4">
               {questions.map((item, index) => {
                 const selectedOptionId = answers[item.question._id];
@@ -201,13 +209,13 @@ function OnlineTest() {
                 return (
                   <div key={item.question._id} className={`p-4 rounded-xl border-2 ${
                     !isAnswered
-                      ? 'bg-yellow-50 border-yellow-200'
+                      ? 'bg-yellow-500/10 border-yellow-500/30'
                       : isCorrect 
-                        ? 'bg-green-50 border-green-200' 
-                        : 'bg-red-50 border-red-200'
+                        ? 'bg-green-500/10 border-green-500/30' 
+                        : 'bg-red-500/10 border-red-500/30'
                   }`}>
                     <div className="flex items-start gap-3">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 ${
                         !isAnswered 
                           ? 'bg-yellow-500' 
                           : isCorrect 
@@ -219,11 +227,11 @@ function OnlineTest() {
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
                           <div 
-                            className="text-lg font-medium text-slate-800 quill-content"
+                            className="text-lg font-medium text-white quill-content"
                             dangerouslySetInnerHTML={{ __html: item.question.question }} 
                           />
                           {!isAnswered && (
-                            <span className="text-yellow-600 font-semibold text-sm bg-yellow-100 px-2 py-1 rounded-full">
+                            <span className="text-yellow-400 font-semibold text-sm bg-yellow-500/20 px-2 py-1 rounded-full border border-yellow-500/30">
                               ⚠ Skipped
                             </span>
                           )}
@@ -237,10 +245,10 @@ function OnlineTest() {
                             return (
                               <div key={option._id} className={`p-3 rounded-lg border ${
                                 isCorrectOption 
-                                  ? 'bg-green-100 border-green-300 text-green-800 font-medium' 
+                                  ? 'bg-green-500/10 border-green-500/30 text-green-300 font-medium' 
                                   : isSelected 
-                                    ? 'bg-red-100 border-red-300 text-red-800' 
-                                    : 'bg-gray-50 border-gray-200 text-gray-600'
+                                    ? 'bg-red-500/10 border-red-500/30 text-red-300' 
+                                    : 'bg-gray-800/50 border-gray-700 text-gray-400'
                               }`}>
                                 <div className="flex items-center gap-2">
                                   <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
@@ -248,19 +256,23 @@ function OnlineTest() {
                                       ? 'bg-green-500 text-white' 
                                       : isSelected 
                                         ? 'bg-red-500 text-white' 
-                                        : 'bg-gray-300 text-gray-600'
+                                        : 'bg-gray-700 text-gray-400'
                                   }`}>
                                     {String.fromCharCode(65 + item.options.indexOf(option))}
                                   </span>
                                   <span 
-                                    className="quill-content"
+                                    className="quill-content flex-1"
                                     dangerouslySetInnerHTML={{ __html: option.option_text }} 
                                   />
                                   {isCorrectOption && (
-                                    <span className="text-green-600 font-semibold text-sm">✓ Correct</span>
+                                    <span className="text-green-400 font-semibold text-sm flex items-center gap-1">
+                                      <Check className="w-4 h-4" /> Correct
+                                    </span>
                                   )}
                                   {isSelected && !isCorrectOption && (
-                                    <span className="text-red-600 font-semibold text-sm">✗ Your Answer</span>
+                                    <span className="text-red-400 font-semibold text-sm flex items-center gap-1">
+                                      <X className="w-4 h-4" /> Your Answer
+                                    </span>
                                   )}
                                 </div>
                               </div>
@@ -281,16 +293,16 @@ function OnlineTest() {
 
   if (questions.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-amber-50 flex items-center justify-center p-4 pt-20">
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200 p-8 text-center max-w-md">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <AlertCircle className="h-8 w-8 text-gray-400" />
+      <div className="min-h-screen bg-[#0A0E27] flex items-center justify-center p-4">
+        <div className="text-center max-w-md mx-auto px-4">
+          <div className="bg-gray-800 rounded-full p-4 inline-block mb-4">
+            <AlertCircle className="h-10 w-10 text-gray-400" aria-hidden="true" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">No Questions Available</h2>
-          <p className="text-gray-600 mb-6">Questions will appear here once they are added for this subtopic.</p>
+          <h2 className="text-2xl font-bold text-white mb-2">No Questions Available</h2>
+          <p className="text-gray-400 mb-6">Questions will appear here once they are added for this subtopic.</p>
           <Link
             href="/test-topics"
-            className="inline-block px-6 py-2 bg-gradient-to-r from-blue-900 to-amber-600 text-white rounded-lg font-semibold hover:from-blue-800 hover:to-amber-700 transition-all"
+            className="inline-block px-6 py-2 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white rounded-lg font-semibold hover:from-[#5558E3] hover:to-[#7C3AED] transition-all"
           >
             Back to Topics
           </Link>
@@ -302,30 +314,30 @@ function OnlineTest() {
   const item = questions[currentQuestionIndex];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-amber-50 flex items-center justify-center p-2 sm:p-4 pt-20 sm:pt-4">
+    <div className="min-h-screen bg-[#0A0E27] text-white flex items-center justify-center p-2 sm:p-4 pt-20 sm:pt-4">
       <div className="w-full max-w-4xl">
         {/* Single Card Container - Responsive Height */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 flex flex-col max-h-[85vh] sm:max-h-[85vh]">
+        <div className="bg-[#161B33] border border-gray-700 rounded-2xl shadow-lg shadow-[#6366F1]/20 flex flex-col max-h-[85vh] sm:max-h-[85vh]">
           {/* Header - Fixed Height */}
-          <div className="bg-[#192A41] rounded-t-2xl p-3 sm:p-4 flex-shrink-0">
+          <div className="bg-[#1a1f3a] border-b border-gray-700 rounded-t-2xl p-3 sm:p-4 flex-shrink-0">
             <h1 className="text-lg sm:text-xl font-bold text-white mb-2 text-center">Online Test - {formatDisplayText(subTopicName)}</h1>
             <div className="flex justify-between items-center text-white">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-[#C0A063] rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-[#6366F1] rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">{currentQuestionIndex + 1}</span>
                 </div>
                 <div>
                   <h2 className="text-sm font-medium">Question {currentQuestionIndex + 1} of {questions.length}</h2>
                 </div>
               </div>
-              <div className="flex items-center space-x-2 bg-white/20 px-2 sm:px-3 py-1 rounded-lg">
-                <Timer className="h-3 w-3 sm:h-4 sm:w-4" />
-                <span className="font-mono text-xs sm:text-sm">{formatTime(timeLeft)}</span>
+              <div className="flex items-center space-x-2 bg-[#161B33] border border-gray-700 px-2 sm:px-3 py-1 rounded-lg">
+                <Timer className="h-3 w-3 sm:h-4 sm:w-4 text-[#6366F1]" />
+                <span className="font-mono text-xs sm:text-sm text-white">{formatTime(timeLeft)}</span>
               </div>
             </div>
-            <div className="mt-2 bg-white/20 rounded-full h-1.5">
+            <div className="mt-2 bg-gray-800 rounded-full h-1.5">
               <div 
-                className="bg-white rounded-full h-1.5 transition-all duration-500"
+                className="bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] rounded-full h-1.5 transition-all duration-500"
                 style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
               ></div>
             </div>
@@ -334,7 +346,7 @@ function OnlineTest() {
           {/* Content Area - Flexible Height with Better Mobile Spacing */}
           <div className="flex-1 p-3 sm:p-4 overflow-y-auto">
             <div 
-              className="text-lg sm:text-xl font-medium text-slate-800 mb-4 sm:mb-6 leading-relaxed bg-gradient-to-r from-blue-50 to-amber-50 p-4 sm:p-6 rounded-xl border-l-4 border-blue-900 shadow-lg text-[1.125rem] quill-content" 
+              className="text-lg sm:text-xl font-medium text-white mb-4 sm:mb-6 leading-relaxed bg-[#1a1f3a] border border-gray-700 p-4 sm:p-6 rounded-xl border-l-4 border-l-[#6366F1] shadow-lg text-[1.125rem] quill-content" 
               dangerouslySetInnerHTML={{ __html: item.question.question }} 
             />
             {item.question.question_image_url && (
@@ -342,7 +354,7 @@ function OnlineTest() {
                 <img 
                   src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.question.question_image_url}`}
                   alt="Question"
-                  className="max-w-full h-auto rounded-xl shadow-lg border border-gray-200"
+                  className="max-w-full h-auto rounded-xl shadow-lg border border-gray-700"
                 />
               </div>
             )}
@@ -351,34 +363,34 @@ function OnlineTest() {
                 <button
                   key={option._id}
                   onClick={() => handleAnswer(item.question._id, option._id)}
-                  className={`group w-full p-2 text-left rounded-xl border-2 transition-all duration-200 ${
+                  className={`group w-full p-3 text-left rounded-xl border-2 transition-all duration-200 cursor-pointer ${
                     answers[item.question._id] === option._id
-                      ? 'border-blue-900 bg-gradient-to-r from-blue-50 to-amber-50 shadow-lg'
-                      : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-gray-50 hover:shadow-md'
+                      ? 'border-[#6366F1] bg-[#6366F1]/10 shadow-lg shadow-[#6366F1]/20'
+                      : 'border-gray-700 bg-[#1a1f3a] hover:border-[#6366F1]/50 hover:bg-[#6366F1]/5 hover:shadow-md'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
                     <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold transition-all flex-shrink-0 ${
                       answers[item.question._id] === option._id
-                        ? 'bg-gradient-to-r from-blue-900 to-amber-600 text-white'
-                        : 'bg-gray-100 text-gray-600 group-hover:bg-gray-200'
+                        ? 'bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white'
+                        : 'bg-gray-700 text-gray-400 group-hover:bg-gray-600'
                     }`}>
                       {String.fromCharCode(65 + index)}
                     </div>
                     <div className="flex-1 min-w-0">
                       {option.option_type === 'text' ? (
                         <span 
-                          className="text-slate-700 text-sm sm:text-base block font-normal quill-content"
+                          className="text-white text-sm sm:text-base block font-normal quill-content"
                           dangerouslySetInnerHTML={{ __html: option.option_text }} 
                         />
                       ) : (
                         <>
-                          {option.option_text && <span className="text-slate-700 text-sm sm:text-base block mb-2 font-normal">{option.option_text}</span>}
+                          {option.option_text && <span className="text-white text-sm sm:text-base block mb-2 font-normal">{option.option_text}</span>}
                           {option.path_url && (
                             <img 
                               src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${option.path_url}`}
                               alt="Option"
-                              className="max-w-full sm:max-w-xs h-auto rounded-lg border border-gray-200"
+                              className="max-w-full sm:max-w-xs h-auto rounded-lg border border-gray-700"
                             />
                           )}
                         </>
@@ -391,11 +403,11 @@ function OnlineTest() {
           </div>
           
           {/* Navigation - Fixed at Bottom */}
-          <div className="bg-gray-50 px-3 sm:px-4 py-3 flex justify-between items-center flex-shrink-0 border-t border-gray-200 rounded-b-2xl">
+          <div className="bg-[#1a1f3a] border-t border-gray-700 px-3 sm:px-4 py-3 flex justify-between items-center flex-shrink-0 rounded-b-2xl">
             <button
               onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
               disabled={currentQuestionIndex === 0}
-              className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-slate-600 disabled:text-gray-400 disabled:cursor-not-allowed hover:text-blue-900 transition-colors font-medium text-sm sm:text-base cursor-pointer"
+              className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-gray-400 disabled:text-gray-600 disabled:cursor-not-allowed hover:text-white transition-colors font-medium text-sm sm:text-base cursor-pointer"
             >
               <ChevronLeft className="h-4 w-4" />
               <span>Previous</span>
@@ -403,7 +415,7 @@ function OnlineTest() {
             {currentQuestionIndex === questions.length - 1 ? (
               <button
                 onClick={submitTest}
-                className="flex items-center space-x-1 sm:space-x-2 px-4 sm:px-6 py-2 bg-gradient-to-r from-blue-900 to-amber-600 text-white rounded-lg font-medium hover:from-blue-800 hover:to-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg text-sm sm:text-base cursor-pointer"
+                className="flex items-center space-x-1 sm:space-x-2 px-4 sm:px-6 py-2 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white rounded-lg font-medium hover:from-[#5558E3] hover:to-[#7C3AED] transform hover:scale-105 transition-all duration-200 shadow-lg text-sm sm:text-base cursor-pointer"
               >
                 <Send className="h-4 w-4" />
                 <span>Submit Test</span>
@@ -411,7 +423,7 @@ function OnlineTest() {
             ) : (
               <button
                 onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
-                className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-slate-600 hover:text-blue-900 transition-colors font-medium text-sm sm:text-base cursor-pointer"
+                className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-gray-400 hover:text-white transition-colors font-medium text-sm sm:text-base cursor-pointer"
               >
                 <span>Next</span>
                 <ChevronRight className="h-4 w-4" />
@@ -425,4 +437,3 @@ function OnlineTest() {
 }
 
 export default OnlineTest;
-

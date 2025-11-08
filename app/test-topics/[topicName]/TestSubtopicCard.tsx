@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { FileText } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { formatDisplayText } from '../../../utils/textUtils';
 
 interface Subtopic {
@@ -12,9 +12,10 @@ interface Subtopic {
 
 interface TestSubtopicCardProps {
   subtopic: Subtopic;
+  index?: number;
 }
 
-export default function TestSubtopicCard({ subtopic }: TestSubtopicCardProps) {
+export default function TestSubtopicCard({ subtopic, index = 0 }: TestSubtopicCardProps) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -24,20 +25,33 @@ export default function TestSubtopicCard({ subtopic }: TestSubtopicCardProps) {
   return (
     <button
       onClick={handleClick}
-      className="group relative p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-orange-300 transition-all duration-300 text-left w-full hover:scale-105"
+      className="group relative bg-[#161B33] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 flex flex-col border border-gray-700 hover:border-[#6366F1] shadow-lg shadow-[#6366F1]/20 hover:shadow-2xl hover:shadow-[#6366F1]/50 min-h-[200px] text-left w-full"
+      aria-label={`Start online test for ${formatDisplayText(subtopic.subtopic_name)}`}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-orange-400/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      <div className="relative flex items-start gap-3">
-        <div className="w-10 h-10 bg-gradient-to-r from-slate-600 to-orange-400 rounded-lg flex items-center justify-center flex-shrink-0">
-          <FileText className="h-5 w-5 text-white" />
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#6366F1]/10 via-transparent to-[#EC4899]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      <div className="relative p-6 flex flex-col flex-grow">
+        {/* Index Number */}
+        <div className="absolute top-4 right-4 text-5xl font-black text-white opacity-5 group-hover:opacity-10 transition-opacity">
+          {String(index + 1).padStart(2, '0')}
         </div>
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold text-slate-800 group-hover:text-slate-900 transition-colors">
-            {formatDisplayText(subtopic.subtopic_name)}
-          </h3>
+        
+        {/* Title */}
+        <h3 className="text-xl font-bold mb-auto line-clamp-3 leading-snug relative z-10 pr-8">
+          {formatDisplayText(subtopic.subtopic_name)}
+        </h3>
+
+        {/* Footer */}
+        <div className="mt-5 flex justify-between items-center relative z-10">
+          <span className="text-sm font-bold text-[#6366F1] group-hover:text-[#8B5CF6] transition-colors">
+            Start Test
+          </span>
+          <div className="w-10 h-10 bg-[#6366F1] group-hover:bg-gradient-to-br group-hover:from-[#6366F1] group-hover:to-[#8B5CF6] flex items-center justify-center transition-all duration-300 group-hover:rotate-45 rounded-lg">
+            <ArrowUpRight className="w-5 h-5 text-white transition-all duration-300" aria-hidden="true" />
+          </div>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-slate-600 to-orange-400 group-hover:w-full transition-all duration-300"></div>
     </button>
   );
 }

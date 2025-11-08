@@ -160,7 +160,7 @@ export default async function Cheatsheets({ searchParams }: CheatsheetsPageProps
                 <Link
                   key={sheet._id}
                   href={`/cheatsheets/${sheet.slug}`}
-                  className="group relative bg-[#161B33] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.03] flex flex-col border border-gray-800 hover:border-[#6366F1] hover:shadow-lg hover:shadow-[#6366F1]/20 min-h-[200px]"
+                  className="group relative bg-[#161B33] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 flex flex-col border border-gray-700 hover:border-[#6366F1] shadow-lg shadow-[#6366F1]/20 hover:shadow-2xl hover:shadow-[#6366F1]/50 min-h-[200px]"
                   aria-label={`View ${sheet.title} cheatsheet`}
                 >
                   {/* Gradient Overlay */}
@@ -258,7 +258,7 @@ export default async function Cheatsheets({ searchParams }: CheatsheetsPageProps
                 <Link
                   key={sheet._id}
                   href={`/cheatsheets/${sheet.slug}`}
-                  className="group relative bg-[#161B33] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.03] flex flex-col border border-gray-800 hover:border-[#6366F1] hover:shadow-lg hover:shadow-[#6366F1]/20 min-h-[200px]"
+                  className="group relative bg-[#161B33] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 flex flex-col border border-gray-700 hover:border-[#6366F1] shadow-lg shadow-[#6366F1]/20 hover:shadow-2xl hover:shadow-[#6366F1]/50 min-h-[200px]"
                   aria-label={`View ${sheet.title} cheatsheet`}
                 >
                   {/* Gradient Overlay */}

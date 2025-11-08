@@ -17,8 +17,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const questionCount = questions.length;
 
     const pageTitle = questionCount > 0
-      ? `${formattedSubTopic} Online Mock Test - 30 Minutes`
-      : `${formattedSubTopic} Online Mock Test`;
+      ? `${formattedSubTopic} Online Mock Test`
+      : `${formattedSubTopic} Online Mock Test | PariksaHub`;
 
     const description = questionCount > 0
       ? `Take ${formattedSubTopic} mock test with ${questionCount} questions in 30 minutes. Real exam simulation with automatic scoring and instant results for competitive exam preparation.`
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   // Fallback metadata
   return {
-    title: `${formattedSubTopic} Online Mock Test - 30 Minutes`,
+      title: `${formattedSubTopic} Online Mock Test | PariksaHub`,
     description: `Take ${formattedSubTopic} online mock test with 30 minute timer. Practice competitive exam questions with automatic scoring and instant results.`,
     keywords: [`${formattedSubTopic} mock test`, 'competitive exam mock test', 'timed practice test', 'online assessment'],
     alternates: {
@@ -84,7 +84,7 @@ export default async function OnlineTestLayout({
         '@context': 'https://schema.org',
         '@type': 'Assessment',
         name: `${formattedSubTopic} Online Mock Test`,
-        description: `Take ${formattedSubTopic} mock test with ${questionCount} questions in 30 minutes. Real exam simulation with automatic scoring and instant results.`,
+        description: `Take ${formattedSubTopic} mock test with ${questionCount} questions. Real exam simulation with automatic scoring and instant results.`,
         url: `${baseUrl}/onlinetest/${subTopicName}`,
         timeRequired: 'PT30M',
         numberOfQuestions: questionCount,

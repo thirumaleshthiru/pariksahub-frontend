@@ -171,9 +171,9 @@ function Saved() {
     
     if (isSelected) {
       if (isCorrect) {
-        return 'bg-emerald-500 bg-opacity-20 border-2 border-emerald-500';
+        return 'bg-green-500/10 border-2 border-green-500/30 text-green-300';
       } else {
-        return 'bg-amber-500 bg-opacity-20 border-2 border-amber-500';
+        return 'bg-red-500/10 border-2 border-red-500/30 text-red-300';
       }
     }
     
@@ -457,8 +457,8 @@ function Saved() {
               <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#0A0E27] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-600">
                 <div className="space-y-4">
                   {/* Correct Answer */}
-                  <div className="p-4 bg-emerald-500 bg-opacity-20 rounded-lg border border-emerald-500">
-                    <p className="font-semibold text-emerald-800">
+                  <div className="p-4 bg-green-500/10 rounded-lg border border-green-500/30">
+                    <p className="font-semibold text-green-300">
                       Correct Answer: {currentQuestionForExplanation.question.answer}
                     </p>
                   </div>

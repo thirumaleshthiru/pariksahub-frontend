@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const formattedTopic = formatDisplayText(topicName);
 
   return {
-    title: `${formattedTopic} Mock Tests & Practice Questions`,
+    title: `${formattedTopic} Mock Tests - PariksaHub`,
     description: `Take ${formattedTopic} mock tests and practice questions. Free online tests for competitive exams and technical interviews with detailed solutions.`,
     keywords: [
       `${formattedTopic} mock test`,
@@ -22,14 +22,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       'online test'
     ],
     openGraph: {
-      title: `${formattedTopic} Mock Tests & Practice Questions`,
+      title: `${formattedTopic} Mock Tests - PariksaHub`,
       description: `Take ${formattedTopic} mock tests and practice questions. Free online tests for competitive exams and technical interviews with detailed solutions.`,
       url: `/test-topics/${topicName}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${formattedTopic} Mock Tests & Practice Questions`,
+      title: `${formattedTopic} Mock Tests - PariksaHub`,
       description: `Take ${formattedTopic} mock tests and practice questions. Free online tests for competitive exams and technical interviews with detailed solutions.`,
     },
     alternates: {
@@ -52,7 +52,7 @@ export default async function TestSubTopicsLayout({
   const testSubTopicsSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: `${formattedTopic} Mock Tests & Practice Questions`,
+    name: `${formattedTopic} Mock Tests - PariksaHub`,
     description: `Take ${formattedTopic} mock tests and practice questions. Free online tests for competitive exams and technical interviews with detailed solutions.`,
     url: `${baseUrl}/test-topics/${topicName}`,
     breadcrumb: {

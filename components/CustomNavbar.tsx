@@ -8,10 +8,10 @@ import Image from 'next/image';
 const mainNavLinks = [
   { to: "/practice", label: "Practice" },
   { to: "/random-topics", label: "Random Topics" },
-  { to: "/test-topics", label: "Mock Test" },
   { to: "/exam-patterns", label: "Exam Patterns" },
   { to: "/cheatsheets", label: "Cheatsheets" },
   { to: "/faqs", label: "FAQs" },
+  { to: "/test-topics", label: "Mock Test" },
   { to: "/saved", label: "Saved" }
 ];
 

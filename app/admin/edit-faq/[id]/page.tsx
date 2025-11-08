@@ -55,11 +55,12 @@ function EditFAQ() {
       ['bold', 'italic', 'underline'],
       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
       ['link'],
+      ['code-block'],
       ['clean']
     ],
   };
 
-  const quillFormats = ['header', 'bold', 'italic', 'underline', 'list', 'link'];
+  const quillFormats = ['header', 'bold', 'italic', 'underline', 'list', 'link', 'code-block'];
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -288,6 +289,25 @@ function EditFAQ() {
         }
         .ql-editor.ql-blank::before {
           color: #9ca3af !important;
+        }
+        .ql-editor pre.ql-syntax {
+          background-color: #1e293b !important;
+          color: #e2e8f0 !important;
+          border-radius: 4px !important;
+          padding: 12px !important;
+          margin: 8px 0 !important;
+          overflow-x: auto !important;
+          font-family: 'Courier New', Courier, monospace !important;
+          font-size: 13px !important;
+          line-height: 1.5 !important;
+        }
+        .ql-editor code {
+          background-color: #f1f5f9 !important;
+          color: #e11d48 !important;
+          padding: 2px 6px !important;
+          border-radius: 3px !important;
+          font-family: 'Courier New', Courier, monospace !important;
+          font-size: 13px !important;
         }
       `}</style>
 

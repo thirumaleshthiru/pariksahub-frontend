@@ -289,6 +289,39 @@ function Dashboard() {
               </button>
             </div>
           </div>
+
+          {/* Programming Topics Management */}
+          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+            <h3 className="text-xl font-semibold text-white mb-4">
+              Programming Topics
+            </h3>
+            <div className="space-y-3">
+              <button 
+                onClick={() => router.push('/admin/create-programming-topic')}
+                className="w-full bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-cyan-500/30 flex items-center justify-center"
+              >
+                Create Topic
+              </button>
+              <button 
+                onClick={() => router.push('/admin/manage-programming-topics')}
+                className="w-full bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-cyan-500/30 flex items-center justify-center"
+              >
+                Manage Topics
+              </button>
+              <button 
+                onClick={() => router.push('/admin/add-code-question')}
+                className="w-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-teal-500/30 flex items-center justify-center"
+              >
+                Add Code Question
+              </button>
+              <button 
+                onClick={() => router.push('/admin/manage-code-questions')}
+                className="w-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 border border-teal-500/30 flex items-center justify-center"
+              >
+                Manage Code Questions
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

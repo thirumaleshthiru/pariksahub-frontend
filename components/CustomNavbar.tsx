@@ -10,6 +10,7 @@ const mainNavLinks = [
   { to: "/random-topics", label: "Random Topics" },
   { to: "/exam-patterns", label: "Exam Patterns" },
   { to: "/cheatsheets", label: "Cheatsheets" },
+  { to: "/programming-topics", label: "Programming" },
   { to: "/faqs", label: "FAQs" },
   { to: "/test-topics", label: "Mock Test" },
   { to: "/saved", label: "Saved" }

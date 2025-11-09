@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import ScrollToTopButton from '../../../components/ScrollToTopButton';
 
 interface CheatsheetItem {
   _id?: string;
@@ -231,13 +232,13 @@ export default function CheatsheetClient({ items, itemCategories }: CheatsheetCl
       {/* Table of Contents */}
       {filteredItems.length > 3 && (
         <div className="mb-2 sm:mb-4 p-3 sm:p-4 lg:p-6 bg-[#161B33] border border-gray-800 rounded-xl">
-          <h2 className="text-base sm:text-lg font-bold text-white mb-3">Contents</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-white mb-3">Contents</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {filteredItems.map((item, index) => (
               <a
                 key={index}
                 href={`#item-${index}`}
-                className="text-xs sm:text-sm text-white/90 hover:text-[#6366F1] underline transition-colors"
+                className="text-sm sm:text-base text-white/90 hover:text-[#6366F1] underline transition-colors"
                 aria-label={`Jump to ${item.title}`}
               >
                 {index + 1}. {item.title}
@@ -286,6 +287,8 @@ export default function CheatsheetClient({ items, itemCategories }: CheatsheetCl
           <p className="text-gray-400">No items found for the selected category.</p>
         </div>
       )}
+
+      <ScrollToTopButton />
     </>
   );
 }

@@ -69,7 +69,7 @@ export default async function CheatsheetDetail({ params }: CheatsheetDetailPageP
     return (
       <div className="min-h-screen bg-[#0A0E27] flex items-center justify-center p-4">
         <main className="text-center max-w-md mx-auto px-4">
-          <div className="bg-red-500 bg-opacity-10 border border-red-500 rounded-2xl p-4 inline-block mb-4">
+          <div className="border border-red-500 rounded-2xl p-4 inline-block mb-4">
             <h1 className="text-2xl font-bold text-white mb-2">Cheatsheet Not Found</h1>
             <p className="text-gray-400 mb-6">The cheatsheet you're looking for doesn't exist.</p>
             <Link

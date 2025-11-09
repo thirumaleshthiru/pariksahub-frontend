@@ -130,10 +130,7 @@ export default function Home() {
             {/* Feature 1 */}
             <div className="group bg-[#161B33] border border-gray-800 p-6 rounded-2xl hover:border-[#6366F1] hover:shadow-xl hover:shadow-[#6366F1]/20 hover:scale-105 transition-all duration-300 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#6366F1]/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              
-              <div className="w-12 h-12 bg-[#6366F1] rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <BookOpen className="w-6 h-6 text-white" />
-              </div>
+             
               <h3 className="text-xl font-bold text-white mb-3">
                 Comprehensive Library
               </h3>
@@ -146,9 +143,7 @@ export default function Home() {
             <div className="group bg-[#161B33] border border-gray-800 p-6 rounded-2xl hover:border-[#6366F1] hover:shadow-xl hover:shadow-[#6366F1]/20 hover:scale-105 transition-all duration-300 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#8B5CF6]/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
               
-              <div className="w-12 h-12 bg-[#6366F1] rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Target className="w-6 h-6 text-white" />
-              </div>
+              
               <h3 className="text-xl font-bold text-white mb-3">
                 Real-time Testing
               </h3>
@@ -160,10 +155,7 @@ export default function Home() {
             {/* Feature 3 */}
             <div className="group bg-[#161B33] border border-gray-800 p-6 rounded-2xl hover:border-[#6366F1] hover:shadow-xl hover:shadow-[#6366F1]/20 hover:scale-105 transition-all duration-300 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#EC4899]/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              
-              <div className="w-12 h-12 bg-[#6366F1] rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <TrendingUp className="w-6 h-6 text-white" />
-              </div>
+               
               <h3 className="text-xl font-bold text-white mb-3">
                 Targeted Practice
               </h3>

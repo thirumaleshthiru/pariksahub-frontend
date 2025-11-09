@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { 
   Plus, 
@@ -48,7 +48,7 @@ interface Stats {
   byDifficulty?: Array<{ _id: string; count: number }>;
 }
 
-function ManageCodeQuestions() {
+function ManageCodeQuestionsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const topicIdParam = searchParams.get('topicId');
@@ -427,6 +427,21 @@ function ManageCodeQuestions() {
         )}
       </div>
     </div>
+  );
+}
+
+function ManageCodeQuestions() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#0A0E27] text-white p-4 sm:p-6 mt-5 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#6366F1] mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    }>
+      <ManageCodeQuestionsContent />
+    </Suspense>
   );
 }
 

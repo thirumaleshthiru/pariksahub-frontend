@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Trash2, AlertCircle, CheckCircle, ChevronUp, ChevronDown, Code, FileText } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -30,7 +30,7 @@ interface ProgrammingTopic {
   slug: string;
 }
 
-function AddCodeQuestion() {
+function AddCodeQuestionContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const topicIdParam = searchParams.get('topicId');
@@ -730,6 +730,21 @@ function AddCodeQuestion() {
         </form>
       </div>
     </div>
+  );
+}
+
+function AddCodeQuestion() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#0A0E27] text-white p-4 sm:p-6 mt-5 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#6366F1] mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    }>
+      <AddCodeQuestionContent />
+    </Suspense>
   );
 }
 

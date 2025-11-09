@@ -4,6 +4,8 @@ import { AlertCircle, ArrowUpRight } from 'lucide-react';
 import { fetchFromApi } from '../../utils/serverApi';
 import { formatDisplayText } from '../../utils/textUtils';
 
+export const dynamic = 'force-dynamic';
+
 interface Topic {
   _id: string;
   topic_name: string;

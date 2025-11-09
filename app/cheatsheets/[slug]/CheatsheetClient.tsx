@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface CheatsheetItem {
   _id?: string;
@@ -23,6 +25,56 @@ interface CheatsheetItem {
 interface CheatsheetClientProps {
   items: CheatsheetItem[];
   itemCategories: string[];
+}
+
+// Function to detect language from code content
+function detectLanguage(code: string, providedLanguage?: string): string {
+  if (providedLanguage) {
+    return providedLanguage.toLowerCase();
+  }
+  
+  const codeLower = code.toLowerCase().trim();
+  
+  // Python indicators
+  if (codeLower.includes('def ') || codeLower.includes('import ') || 
+      codeLower.includes('print(') || codeLower.includes('if __name__') ||
+      codeLower.includes('lambda ') || codeLower.includes('yield ')) {
+    return 'python';
+  }
+  
+  // JavaScript indicators
+  if (codeLower.includes('function ') || codeLower.includes('const ') || 
+      codeLower.includes('let ') || codeLower.includes('console.log') ||
+      codeLower.includes('=>') || codeLower.includes('require(')) {
+    return 'javascript';
+  }
+  
+  // Java indicators
+  if (codeLower.includes('public class') || codeLower.includes('public static void') ||
+      codeLower.includes('system.out.println')) {
+    return 'java';
+  }
+  
+  // HTML indicators
+  if (codeLower.includes('<html') || codeLower.includes('<!doctype') ||
+      codeLower.includes('<div') || codeLower.includes('<p>')) {
+    return 'html';
+  }
+  
+  // CSS indicators
+  if (codeLower.includes('{') && codeLower.includes(':') && 
+      (codeLower.includes('color') || codeLower.includes('margin') || codeLower.includes('padding'))) {
+    return 'css';
+  }
+  
+  // C/C++ indicators
+  if (codeLower.includes('#include') || codeLower.includes('int main') ||
+      codeLower.includes('printf') || codeLower.includes('std::')) {
+    return 'cpp';
+  }
+  
+  // Default to text if can't detect
+  return 'text';
 }
 
 export default function CheatsheetClient({ items, itemCategories }: CheatsheetClientProps) {
@@ -53,10 +105,11 @@ export default function CheatsheetClient({ items, itemCategories }: CheatsheetCl
   const renderItemContent = (item: CheatsheetItem, itemId: string) => {
     switch (item.content_type) {
       case 'code':
+        const codeLanguage = detectLanguage(item.code || '', item.language);
         return (
           <div className="relative">
             <div className="flex items-center justify-between mb-2 pb-2 border-b border-gray-800">
-              <span className="text-xs font-mono text-gray-400 uppercase">{item.language || 'code'}</span>
+              <span className="text-xs font-mono text-gray-400 uppercase">{codeLanguage}</span>
               <button
                 onClick={() => copyCode(item.code || '', itemId)}
                 className="text-xs sm:text-xs text-white hover:text-[#6366F1] flex items-center gap-1 cursor-pointer transition-colors"
@@ -66,9 +119,23 @@ export default function CheatsheetClient({ items, itemCategories }: CheatsheetCl
                 <span className="font-bold">{copied === itemId ? 'Copied' : 'Copy'}</span>
               </button>
             </div>
-            <pre className="bg-[#161B33] p-3 sm:p-4 rounded border border-gray-800 overflow-x-auto text-xs sm:text-sm font-mono leading-relaxed">
-              <code className="text-white/90">{item.code}</code>
-            </pre>
+            <div className="my-4">
+              <SyntaxHighlighter
+                language={codeLanguage}
+                style={vscDarkPlus}
+                customStyle={{
+                  borderRadius: '0.5rem',
+                  padding: '1rem',
+                  fontSize: '0.875rem',
+                  lineHeight: '1.5',
+                  margin: 0,
+                  backgroundColor: '#1e1e1e',
+                }}
+                PreTag="div"
+              >
+                {item.code || ''}
+              </SyntaxHighlighter>
+            </div>
           </div>
         );
 
@@ -83,12 +150,13 @@ export default function CheatsheetClient({ items, itemCategories }: CheatsheetCl
       case 'mixed':
         return (
           <div className="space-y-4">
-            {item.mixed_content && item.mixed_content.map((block, blockIndex) => (
-              <div key={blockIndex}>
-                {block.type === 'code' ? (
-                  <div className="relative">
+            {item.mixed_content && item.mixed_content.map((block, blockIndex) => {
+              if (block.type === 'code') {
+                const blockLanguage = detectLanguage(block.content || '', block.language);
+                return (
+                  <div key={blockIndex} className="relative">
                     <div className="flex items-center justify-between mb-2 pb-2 border-b border-gray-800">
-                      <span className="text-xs font-mono text-gray-400 uppercase">{block.language || 'code'}</span>
+                      <span className="text-xs font-mono text-gray-400 uppercase">{blockLanguage}</span>
                       <button
                         onClick={() => copyCode(block.content || '', `${itemId}-${blockIndex}`)}
                         className="text-xs sm:text-xs text-white hover:text-[#6366F1] flex items-center gap-1 cursor-pointer transition-colors"
@@ -98,18 +166,35 @@ export default function CheatsheetClient({ items, itemCategories }: CheatsheetCl
                         <span className="font-bold">{copied === `${itemId}-${blockIndex}` ? 'Copied' : 'Copy'}</span>
                       </button>
                     </div>
-                    <pre className="bg-[#161B33] p-4 rounded border border-gray-800 overflow-x-auto text-sm font-mono leading-relaxed">
-                      <code className="text-white/90">{block.content}</code>
-                    </pre>
+                    <div className="my-4">
+                      <SyntaxHighlighter
+                        language={blockLanguage}
+                        style={vscDarkPlus}
+                        customStyle={{
+                          borderRadius: '0.5rem',
+                          padding: '1rem',
+                          fontSize: '0.875rem',
+                          lineHeight: '1.5',
+                          margin: 0,
+                          backgroundColor: '#1e1e1e',
+                        }}
+                        PreTag="div"
+                      >
+                        {block.content || ''}
+                      </SyntaxHighlighter>
+                    </div>
                   </div>
-                ) : (
+                );
+              }
+              return (
+                <div key={blockIndex}>
                   <div 
                     className="prose-custom quill-content text-white/80"
                     dangerouslySetInnerHTML={{ __html: block.content }}
                   />
-                )}
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         );
 

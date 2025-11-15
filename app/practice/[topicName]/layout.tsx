@@ -11,26 +11,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const formattedTopic = formatDisplayText(topicName);
 
   return {
-    title: `${formattedTopic} Subtopics - Practice Questions | PariksaHub`,
-    description: `Explore ${formattedTopic} subtopics for competitive exam preparation. Practice MCQs with detailed solutions and explanations.`,
+    title: `${formattedTopic} Important Topics for Preparation`,
+    description: `Explore ${formattedTopic}'s important topics for competitive exam preparation, technical interview preparation, programming interview preparation, etc. Practice MCQs with detailed solutions and explanations.`,
     keywords: [
-      `${formattedTopic} subtopics`,
+      `${formattedTopic} topics`,
       `${formattedTopic} practice`,
       `${formattedTopic} mcq`,
       'competitive exam preparation',
-      'practice questions',
-      'subtopics'
+      'technical interview preparation',
+      'programming interview preparation'
     ],
     openGraph: {
-      title: `${formattedTopic} Subtopics - Practice Questions | PariksaHub`,
-      description: `Explore ${formattedTopic} subtopics for competitive exam preparation. Practice MCQs with detailed solutions and explanations.`,
+      title: `${formattedTopic} Important Topics for Preparation`,
+      description: `Explore ${formattedTopic}'s important topics for competitive exam preparation, technical interview preparation, programming interview preparation, etc. Practice MCQs with detailed solutions and explanations.`,
       url: `/practice/${topicName}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${formattedTopic} Subtopics - Practice Questions | PariksaHub`,
-      description: `Explore ${formattedTopic} subtopics for competitive exam preparation. Practice MCQs with detailed solutions and explanations.`,
+      title: `${formattedTopic} Important Topics for Preparation`,
+      description: `Explore ${formattedTopic}'s important topics for competitive exam preparation, technical interview preparation, programming interview preparation, etc. Practice MCQs with detailed solutions and explanations.`,
     },
     alternates: {
       canonical: `/practice/${topicName}`,

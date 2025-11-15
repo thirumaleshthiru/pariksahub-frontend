@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import { AlertCircle, ArrowUpRight, Search, X, ChevronDown } from 'lucide-react';
+import { AlertCircle, ArrowUpRight, Search, X } from 'lucide-react';
 import { fetchFromApi } from '../../../utils/serverApi';
 import { formatDisplayText } from '../../../utils/textUtils';
+import ExamFilter from './ExamFilter';
 
 interface Subtopic {
   _id: string;
@@ -134,28 +135,12 @@ export default async function SubTopics({ params, searchParams }: PracticeSubtop
           {/* Search and Filter */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 justify-center max-w-2xl mx-auto">
               {/* Exam Filter */}
-              <div className="relative">
-                <form action={`/practice/${topicName}`} method="get" className="inline-block">
-                  <input type="hidden" name="search" value={search || ''} />
-                  <div className="relative">
-                    <select
-                      name="exam"
-                      defaultValue={selectedExam}
-                      className="bg-[#161B33] border border-gray-800 rounded-lg px-4 py-2.5 min-w-[180px] text-left text-white text-sm appearance-none cursor-pointer hover:border-[#6366F1] transition-colors pr-8 focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent"
-                      aria-label="Filter subtopics by exam type"
-                    >
-                      <option value="">All Exams</option>
-                      {exams.map((exam) => (
-                        <option key={exam._id} value={exam.exam_name}>
-                          {formatDisplayText(exam.exam_name).toUpperCase()}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" aria-hidden="true" />
-                  </div>
-                  <button type="submit" className="sr-only" aria-label="Apply exam filter">Apply Filter</button>
-                </form>
-              </div>
+              <ExamFilter 
+                topicName={topicName}
+                exams={exams}
+                selectedExam={selectedExam}
+                search={search}
+              />
 
               {/* Search */}
               <div className="relative flex-1 sm:max-w-md">
@@ -240,7 +225,7 @@ export default async function SubTopics({ params, searchParams }: PracticeSubtop
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {categorySubtopics.map((subtopic, index) => {
                       const targetRoute = selectedExam 
-                        ? `/practice/${topicName}/${subtopic.subtopic_name}/${selectedExam}`
+                        ? `/practice/${topicName}/${subtopic.subtopic_name}?exam=${encodeURIComponent(selectedExam)}`
                         : `/practice/${topicName}/${subtopic.subtopic_name}`;
                       return (
                         <Link

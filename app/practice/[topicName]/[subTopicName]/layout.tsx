@@ -12,8 +12,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const displaySubTopicName = formatDisplayText(subTopicName);
 
   return {
-    title: `Practice ${displaySubTopicName} Questions - ${displayTopicName}`,
-    description: `Practice ${displaySubTopicName} questions from ${displayTopicName}. Free MCQs with detailed explanations and step-by-step solutions for competitive exam preparation.`,
+    title: `${displaySubTopicName} - ${displayTopicName} Practice Questions and Answers`,
+    description: `Practice ${displaySubTopicName} questions from ${displayTopicName}. Free MCQs with detailed explanations and step-by-step solutions for competitive exam preparation, technical interview preparation, programming interview preparation, etc.`,
     keywords: [
       `${displaySubTopicName} questions`,
       `${displayTopicName} mcq`,
@@ -23,14 +23,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `${displayTopicName} preparation`
     ],
     openGraph: {
-      title: `${displaySubTopicName} Questions - ${displayTopicName}`,
+      title: `${displaySubTopicName} - ${displayTopicName} Practice Questions and Answers`,
       description: `Practice ${displaySubTopicName} questions from ${displayTopicName}. Free MCQs with detailed explanations and step-by-step solutions for competitive exam preparation.`,
       url: `/practice/${topicName}/${subTopicName}`,
       type: 'website',
     },
     twitter: {
       card: 'summary',
-      title: `${displaySubTopicName} Questions - ${displayTopicName}`,
+      title: `${displaySubTopicName} - ${displayTopicName} Practice Questions and Answers`,
       description: `Practice ${displaySubTopicName} questions from ${displayTopicName}. Free MCQs with detailed explanations and step-by-step solutions for competitive exam preparation.`,
     },
     alternates: {

@@ -28,12 +28,18 @@ interface QuestionItem {
 
 interface SubTopicQuestionsPageProps {
   params: Promise<{ topicName: string; subTopicName: string }>;
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: string; exam?: string }>;
 }
 
-async function getQuestions(subTopicName: string): Promise<QuestionItem[]> {
+async function getQuestions(subTopicName: string, exam?: string): Promise<QuestionItem[]> {
   try {
-    const data = await fetchFromApi(`/api/questions/subtopic/${encodeURIComponent(subTopicName)}`) as QuestionItem[];
+    let apiUrl: string;
+    if (exam) {
+      apiUrl = `/api/questions/all/exam/${encodeURIComponent(exam)}/subtopic/${encodeURIComponent(subTopicName)}`;
+    } else {
+      apiUrl = `/api/questions/all/subtopic/${encodeURIComponent(subTopicName)}`;
+    }
+    const data = await fetchFromApi(apiUrl) as QuestionItem[];
     return data || [];
   } catch (error) {
     console.error('Error fetching questions:', error);
@@ -43,7 +49,7 @@ async function getQuestions(subTopicName: string): Promise<QuestionItem[]> {
 
 export default async function SubTopicQuestions({ params, searchParams }: SubTopicQuestionsPageProps) {
   const { topicName, subTopicName } = await params;
-  const { page } = await searchParams;
+  const { page, exam } = await searchParams;
   const currentPage = parseInt(page || '1', 10);
   const questionsPerPage = 10;
   
@@ -51,7 +57,7 @@ export default async function SubTopicQuestions({ params, searchParams }: SubTop
   let error: string | null = null;
 
   try {
-    questions = await getQuestions(subTopicName);
+    questions = await getQuestions(subTopicName, exam);
   } catch (err) {
     error = err instanceof Error ? err.message : 'Failed to load questions. Please try again later.';
   }
@@ -127,8 +133,8 @@ export default async function SubTopicQuestions({ params, searchParams }: SubTop
         <section className="relative py-12 bg-gradient-to-b from-[#0A0E27] to-[#1a1f3a]">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center py-20 border-2 border-dashed border-gray-700 rounded-2xl bg-white bg-opacity-5">
-              <div className="w-16 h-16 rounded-xl bg-[#161B33] border border-gray-800 mx-auto mb-4" aria-hidden="true"></div>
-              <h2 className="text-xl font-bold mb-2">No Questions Yet</h2>
+         
+              <h2 className="text-xl text-black font-bold mb-2">No Questions Yet</h2>
               <p className="text-gray-400">Check back soon for practice materials</p>
             </div>
           </div>

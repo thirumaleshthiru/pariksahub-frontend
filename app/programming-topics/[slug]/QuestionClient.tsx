@@ -27,32 +27,6 @@ interface QuestionClientProps {
   questions: Question[];
 }
 
-function detectLanguage(code: string, providedLanguage?: string): string {
-  if (providedLanguage) return providedLanguage.toLowerCase();
-  
-  const c = code.toLowerCase().trim();
-  
-  if (c.includes('def ') || c.includes('import ') || c.includes('print(') || 
-      c.includes('if __name__') || c.includes('lambda ') || c.includes('yield ')) return 'python';
-  
-  if (c.includes('function ') || c.includes('const ') || c.includes('let ') || 
-      c.includes('console.log') || c.includes('=>') || c.includes('require(')) return 'javascript';
-  
-  if (c.includes('public class') || c.includes('public static void') || 
-      c.includes('system.out.println')) return 'java';
-  
-  if (c.includes('#include') || c.includes('int main') || c.includes('printf') || 
-      c.includes('std::')) return 'cpp';
-  
-  if (c.includes('<html') || c.includes('<!doctype') || c.includes('<div') || 
-      c.includes('<p>')) return 'html';
-  
-  if (c.includes('{') && c.includes(':') && (c.includes('color') || 
-      c.includes('margin') || c.includes('padding'))) return 'css';
-  
-  return 'text';
-}
-
 function parseDescriptionWithSyntaxHighlighting(html: string): React.ReactNode[] {
   if (!html || typeof html !== 'string') return [];
 
@@ -68,7 +42,6 @@ function parseDescriptionWithSyntaxHighlighting(html: string): React.ReactNode[]
   
   const codeBlockMatches: Array<{index: number, length: number, code: string, isBlock: boolean}> = [];
   
-  // Match ql-code-block-container with nested ql-code-block divs
   const qlContainerRegex = /<div[^>]*class="ql-code-block-container"[^>]*>([\s\S]*?)<\/div>/g;
   let match: RegExpExecArray | null;
   while ((match = qlContainerRegex.exec(html)) !== null) {
@@ -97,11 +70,9 @@ function parseDescriptionWithSyntaxHighlighting(html: string): React.ReactNode[]
     }
   }
   
-  // Match standalone ql-code-block divs (not in container we already processed)
   const qlBlockStandaloneRegex = /<div[^>]*class="ql-code-block"[^>]*>([\s\S]*?)<\/div>/g;
   match = null;
   while ((match = qlBlockStandaloneRegex.exec(html)) !== null) {
-    // Check if this block is already captured in a container
     const isAlreadyCaptured = codeBlockMatches.some(cb => 
       match!.index >= cb.index && match!.index < cb.index + cb.length
     );
@@ -124,7 +95,6 @@ function parseDescriptionWithSyntaxHighlighting(html: string): React.ReactNode[]
     }
   }
   
-  // Match <pre><code> blocks
   const codeBlockRegex = /<pre><code[^>]*>([\s\S]*?)<\/code><\/pre>/g;
   match = null;
   while ((match = codeBlockRegex.exec(html)) !== null) {
@@ -186,11 +156,10 @@ function parseDescriptionWithSyntaxHighlighting(html: string): React.ReactNode[]
     }
     
     if (codeMatch.isBlock) {
-      const language = detectLanguage(codeMatch.code);
       parts.push(
         <div key={`code-block-${matchIndex}-${codeMatch.index}`} className="my-2">
           <SyntaxHighlighter
-            language={language}
+            language="text"
             style={vscDarkPlus}
             customStyle={{
               borderRadius: '0.5rem',
@@ -261,6 +230,7 @@ function parseDescriptionWithSyntaxHighlighting(html: string): React.ReactNode[]
 export default function QuestionClient({ questions }: QuestionClientProps) {
   const [copied, setCopied] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setIsMounted(true);
@@ -362,16 +332,18 @@ export default function QuestionClient({ questions }: QuestionClientProps) {
             border-radius: 0.5rem;
             object-fit: contain;
           }
-            .prose-custom pre {
-              margin: 0 !important;
-              background-color: #1e1e1e !important;
-              color: #d4d4d4 !important;
-            }
-              .prose-custom code {
-                margin: 0 !important;
-                background-color: #1e1e1e !important;
-                color: #d4d4d4 !important;
-              }
+          
+          .prose-custom pre {
+            margin: 0 !important;
+            background-color: #1e1e1e !important;
+            color: #d4d4d4 !important;
+          }
+          
+          .prose-custom code {
+            margin: 0 !important;
+            background-color: #1e1e1e !important;
+            color: #d4d4d4 !important;
+          }
         `
       }} />
       
@@ -381,6 +353,30 @@ export default function QuestionClient({ questions }: QuestionClientProps) {
           : [];
 
         const questionId = question._id || `question-${index}`;
+
+        // Group consecutive code blocks with different languages
+        const groups: Array<{type: 'code-group', blocks: ContentBlock[]} | {type: 'single', block: ContentBlock}> = [];
+        let currentCodeGroup: ContentBlock[] = [];
+        
+        sortedBlocks.forEach((block, idx) => {
+          if (block.type === 'code') {
+            currentCodeGroup.push(block);
+            // Check if next block is not code or is last block
+            if (idx === sortedBlocks.length - 1 || sortedBlocks[idx + 1].type !== 'code') {
+              // Only group if there are multiple code blocks with different languages
+              const uniqueLanguages = new Set(currentCodeGroup.map(b => b.language?.toLowerCase()));
+              if (currentCodeGroup.length > 1 && uniqueLanguages.size > 1) {
+                groups.push({type: 'code-group', blocks: [...currentCodeGroup]});
+              } else {
+                // Add each as single block
+                currentCodeGroup.forEach(b => groups.push({type: 'single', block: b}));
+              }
+              currentCodeGroup = [];
+            }
+          } else {
+            groups.push({type: 'single', block});
+          }
+        });
 
         return (
           <article
@@ -408,66 +404,151 @@ export default function QuestionClient({ questions }: QuestionClientProps) {
               )}
             </div>
             
-            {sortedBlocks.length > 0 && (
+            {groups.length > 0 && (
               <div className="sm:ml-11 space-y-4">
-                {sortedBlocks.map((block, blockIndex) => {
-                  if (block.type === 'code') {
-                    const codeLanguage = detectLanguage(block.code || '', block.language);
-                    const blockId = `${questionId}-block-${blockIndex}`;
-                    const blockKey = `${questionId}-${block.order || blockIndex}-${block.type}`;
+                {groups.map((group, groupIndex) => {
+                  if (group.type === 'code-group') {
+                    const groupId = `${questionId}-group-${groupIndex}`;
+                    const currentActiveTab = activeTab[groupId] || group.blocks[0].language || 'code';
                     
                     return (
-                      <div key={blockKey} className="relative">
-                        <div className="flex items-center justify-between mb-2 pb-2 border-b border-gray-800">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-mono text-gray-400 uppercase">{codeLanguage}</span>
-                            {block.label && (
-                              <span className="text-xs text-gray-500">- {block.label}</span>
-                            )}
-                          </div>
-                          <button
-                            onClick={() => copyCode(block.code || '', blockId)}
-                            className="text-xs text-white hover:text-[#6366F1] flex items-center gap-1 cursor-pointer transition-colors"
-                          >
-                            {copied === blockId ? (
-                              <>
-                                <Check className="h-4 w-4 text-[#6366F1]" />
-                                <span className="font-bold text-[#6366F1]">Copied</span>
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="h-4 w-4" />
-                                <span className="font-bold">Copy</span>
-                              </>
-                            )}
-                          </button>
+                      <div key={`group-${groupIndex}`} className="relative">
+                        {/* Tab Headers */}
+                        <div className="flex items-center gap-2 mb-3 border-b border-gray-800 pb-2 flex-wrap">
+                          {group.blocks.map((block, tabIndex) => {
+                            const lang = block.language || 'code';
+                            const isActive = currentActiveTab === lang;
+                            
+                            return (
+                              <button
+                                key={`tab-${tabIndex}`}
+                                onClick={() => setActiveTab(prev => ({...prev, [groupId]: lang}))}
+                                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                                  isActive 
+                                    ? 'bg-[#6366F1] text-white' 
+                                    : 'bg-[#0A0E27] text-gray-400 hover:text-white hover:bg-[#1a1f3a]'
+                                }`}
+                              >
+                                {lang.toUpperCase()}
+                                {block.label && <span className="ml-1 text-xs opacity-70">({block.label})</span>}
+                              </button>
+                            );
+                          })}
                         </div>
-                        <div className="my-2">
-                          <SyntaxHighlighter
-                            language={codeLanguage}
-                            style={vscDarkPlus}
-                            customStyle={{
-                              borderRadius: '0.5rem',
-                              padding: '1rem',
-                              fontSize: '0.875rem',
-                              lineHeight: '1.5',
-                              margin: 0,
-                              backgroundColor: '#1e1e1e',
-                            }}
-                            PreTag="div"
-                          >
-                            {block.code || ''}
-                          </SyntaxHighlighter>
-                        </div>
+                        
+                        {/* Tab Content */}
+                        {group.blocks.map((block, tabIndex) => {
+                          const lang = block.language || 'code';
+                          const isActive = currentActiveTab === lang;
+                          const blockId = `${groupId}-tab-${tabIndex}`;
+                          
+                          if (!isActive) return null;
+                          
+                          return (
+                            <div key={`content-${tabIndex}`} className="relative">
+                              <div className="flex items-center justify-end mb-2">
+                                <button
+                                  onClick={() => copyCode(block.code || '', blockId)}
+                                  className="text-xs text-white hover:text-[#6366F1] flex items-center gap-1 cursor-pointer transition-colors"
+                                >
+                                  {copied === blockId ? (
+                                    <>
+                                      <Check className="h-4 w-4 text-[#6366F1]" />
+                                      <span className="font-bold text-[#6366F1]">Copied</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Copy className="h-4 w-4" />
+                                      <span className="font-bold">Copy</span>
+                                    </>
+                                  )}
+                                </button>
+                              </div>
+                              <div className="my-2">
+                                <SyntaxHighlighter
+                                  language={lang.toLowerCase()}
+                                  style={vscDarkPlus}
+                                  customStyle={{
+                                    borderRadius: '0.5rem',
+                                    padding: '1rem',
+                                    fontSize: '0.875rem',
+                                    lineHeight: '1.5',
+                                    margin: 0,
+                                    backgroundColor: '#1e1e1e',
+                                  }}
+                                  PreTag="div"
+                                >
+                                  {block.code || ''}
+                                </SyntaxHighlighter>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     );
                   } else {
-                    const blockKey = `${questionId}-${block.order || blockIndex}-${block.type}`;
-                    return (
-                      <div key={blockKey} className="prose-custom text-white/80">
-                        {parseDescriptionWithSyntaxHighlighting(block.text_content || '')}
-                      </div>
-                    );
+                    // Single block (code or text)
+                    const block = group.block;
+                    const blockIndex = sortedBlocks.indexOf(block);
+                    
+                    if (block.type === 'code') {
+                      const codeLanguage = block.language || 'text';
+                      const blockId = `${questionId}-block-${blockIndex}`;
+                      const blockKey = `${questionId}-${block.order || blockIndex}-${block.type}`;
+                      
+                      return (
+                        <div key={blockKey} className="relative">
+                          <div className="flex items-center justify-between mb-2 pb-2 border-b border-gray-800">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs font-mono text-gray-400 uppercase">{codeLanguage}</span>
+                              {block.label && (
+                                <span className="text-xs text-gray-500">- {block.label}</span>
+                              )}
+                            </div>
+                            <button
+                              onClick={() => copyCode(block.code || '', blockId)}
+                              className="text-xs text-white hover:text-[#6366F1] flex items-center gap-1 cursor-pointer transition-colors"
+                            >
+                              {copied === blockId ? (
+                                <>
+                                  <Check className="h-4 w-4 text-[#6366F1]" />
+                                  <span className="font-bold text-[#6366F1]">Copied</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="h-4 w-4" />
+                                  <span className="font-bold">Copy</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                          <div className="my-2">
+                            <SyntaxHighlighter
+                              language={codeLanguage.toLowerCase()}
+                              style={vscDarkPlus}
+                              customStyle={{
+                                borderRadius: '0.5rem',
+                                padding: '1rem',
+                                fontSize: '0.875rem',
+                                lineHeight: '1.5',
+                                margin: 0,
+                                backgroundColor: '#1e1e1e',
+                              }}
+                              PreTag="div"
+                            >
+                              {block.code || ''}
+                            </SyntaxHighlighter>
+                          </div>
+                        </div>
+                      );
+                    } else {
+                      const blockKey = `${questionId}-${block.order || blockIndex}-${block.type}`;
+                      return (
+                        <div key={blockKey} className="prose-custom text-white/80">
+                          {parseDescriptionWithSyntaxHighlighting(block.text_content || '')}
+                        </div>
+                      );
+                    }
                   }
                 })}
               </div>

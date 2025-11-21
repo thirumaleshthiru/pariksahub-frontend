@@ -71,11 +71,10 @@ function Register() {
         password: formData.password
       });
 
-      setSuccess('Registration successful! Please check your email to verify your account before logging in.');
-      // Don't redirect immediately - let user see the message
+      setSuccess('Registration successful! Redirecting to login...');
       setTimeout(() => {
         router.push('/student/login');
-      }, 5000);
+      }, 2000);
 
     } catch (error) {
       console.error('Registration error:', error);

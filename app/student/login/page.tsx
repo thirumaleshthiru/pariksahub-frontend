@@ -57,11 +57,6 @@ function StudentLogin() {
       if (error instanceof AxiosError && error.response?.data?.message) {
         const errorMessage = error.response.data.message as string;
         setError(errorMessage);
-        
-        // If email not verified, show link to resend verification
-        if (error.response.status === 403 && errorMessage.includes('verify')) {
-          // Error message already contains instructions
-        }
       } else {
         setError('Something went wrong. Please try again.');
       }
@@ -137,17 +132,6 @@ function StudentLogin() {
             {error && (
               <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg text-sm">
                 <p>{error}</p>
-                {error.includes('verify') && (
-                  <div className="mt-3 pt-3 border-t border-red-500/30">
-                    <p className="text-xs mb-2">Didn't receive the email?</p>
-                    <Link 
-                      href="/student/resend-verification" 
-                      className="text-indigo-300 hover:text-indigo-200 text-xs underline"
-                    >
-                      Resend verification email
-                    </Link>
-                  </div>
-                )}
               </div>
             )}
 

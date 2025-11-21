@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Bookmark, BookmarkCheck, Lightbulb, X, Eye, CheckCircle2, XCircle } from 'lucide-react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import Link from 'next/link';
+import axiosInstance from '@/utils/axiosInstance';
 
 interface Question {
   _id: string;
@@ -38,6 +39,7 @@ export default function QuestionsClient({ questions, apiUrl, topicName, subTopic
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [savedQuestions, setSavedQuestions] = useState<Set<string>>(new Set());
   const [isMounted, setIsMounted] = useState(false);
+  const trackingRef = useRef(false);
   
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const [currentQuestionForExplanation, setCurrentQuestionForExplanation] = useState<QuestionItem | null>(null);
@@ -57,7 +59,28 @@ export default function QuestionsClient({ questions, apiUrl, topicName, subTopic
   useEffect(() => {
     setIsMounted(true);
     loadSavedQuestions();
+    
+    // Prevent duplicate tracking
+    if (!trackingRef.current) {
+      trackingRef.current = true;
+      trackTopicVisit();
+    }
   }, []);
+
+  const trackTopicVisit = async () => {
+    try {
+      const response = await axiosInstance.get('/api/student/profile');
+      if (response.status === 200) {
+        // User is logged in, track the visit
+        await axiosInstance.post('/api/student/track-topic-visit', {
+          topicName: topicName,
+          subTopicName: subTopicName
+        });
+      }
+    } catch (err) {
+      // Not logged in or error, skip tracking
+    }
+  };
 
   useEffect(() => {
     window.scrollTo({
@@ -113,16 +136,33 @@ export default function QuestionsClient({ questions, apiUrl, topicName, subTopic
     }
   };
 
-  const toggleSaveQuestion = (questionId: string) => {
+  const toggleSaveQuestion = async (questionId: string) => {
     try {
       const newSavedQuestions = new Set(savedQuestions);
-      if (savedQuestions.has(questionId)) {
+      const isCurrentlySaved = savedQuestions.has(questionId);
+      
+      if (isCurrentlySaved) {
         newSavedQuestions.delete(questionId);
       } else {
         newSavedQuestions.add(questionId);
       }
       setSavedQuestions(newSavedQuestions);
       localStorage.setItem('savedQuestions', JSON.stringify([...newSavedQuestions]));
+      
+      // Also save to database if logged in
+      try {
+        const response = await axiosInstance.get('/api/student/profile');
+        if (response.status === 200) {
+          // User is logged in, sync with database
+          if (isCurrentlySaved) {
+            await axiosInstance.post('/api/student/remove-saved-question', { questionId });
+          } else {
+            await axiosInstance.post('/api/student/save-question', { questionId });
+          }
+        }
+      } catch (err) {
+        // Not logged in or error, continue with localStorage only
+      }
     } catch (error) {
       console.error('Error saving question:', error);
     }

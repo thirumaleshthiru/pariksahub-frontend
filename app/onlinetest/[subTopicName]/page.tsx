@@ -39,6 +39,7 @@ function OnlineTest() {
   // Use refs to store latest values for timer
   const questionsRef = useRef<QuestionItem[]>([]);
   const answersRef = useRef<Record<string, string>>({});
+  const subTopicNameRef = useRef<string>('');
 
   useEffect(() => {
     questionsRef.current = questions;
@@ -47,6 +48,37 @@ function OnlineTest() {
   useEffect(() => {
     answersRef.current = answers;
   }, [answers]);
+
+  useEffect(() => {
+    subTopicNameRef.current = subTopicName;
+  }, [subTopicName]);
+
+  // Save test result function - defined early so it can be used in timer
+  const saveTestResult = async (topicName: string, score: { correct: number; total: number; answered: number; percentage: number }) => {
+    if (!topicName) {
+      console.log('No topic name provided for test result');
+      return;
+    }
+    
+    try {
+      const response = await axiosInstance.get('/api/student/profile');
+      if (response.status === 200) {
+        // User is logged in, save test result
+        const saveResponse = await axiosInstance.post('/api/student/save-test-result', {
+          subTopicName: topicName,
+          score: score
+        });
+        console.log('Test result saved successfully:', saveResponse.data);
+      }
+    } catch (err: any) {
+      // Not logged in or error, skip saving
+      if (err.response?.status === 401) {
+        console.log('User not logged in, skipping test result save');
+      } else {
+        console.error('Error saving test result:', err);
+      }
+    }
+  };
 
   useEffect(() => {
     if (subTopicName) {
@@ -72,13 +104,18 @@ function OnlineTest() {
                 }
               }
             });
-            setScore({
+            const testScore = {
               correct,
               total: questionsRef.current.length,
               answered,
               percentage: questionsRef.current.length ? Math.round((correct / questionsRef.current.length) * 100) : 0
-            });
+            };
+            setScore(testScore);
             setIsFinished(true);
+            
+            // Save test result to database if logged in
+            saveTestResult(subTopicNameRef.current, testScore);
+            
             return 0;
           }
           return prev - 1;
@@ -114,7 +151,7 @@ function OnlineTest() {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const submitTest = () => {
+  const submitTest = async () => {
     let correct = 0;
     let answered = 0;
     questions.forEach(item => {
@@ -127,13 +164,17 @@ function OnlineTest() {
         }
       }
     });
-    setScore({
+    const testScore = {
       correct,
       total: questions.length,
       answered,
       percentage: questions.length ? Math.round((correct / questions.length) * 100) : 0
-    });
+    };
+    setScore(testScore);
     setIsFinished(true);
+    
+    // Save test result to database if logged in
+    saveTestResult(subTopicName, testScore);
   };
 
   if (loading) {

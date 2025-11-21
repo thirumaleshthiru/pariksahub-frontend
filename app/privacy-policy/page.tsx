@@ -48,17 +48,36 @@ function PrivacyPolicy() {
                   We collect minimal data to provide our educational services:
                 </p>
                 <ul className="list-disc list-inside text-gray-700 space-y-2">
+                  <li><strong>Student Accounts:</strong> Username, email, and encrypted password for registered students (optional account creation)</li>
+                  <li><strong>Student Activity Data:</strong> Saved questions, test results with scores, and visited topics (only if you create an account)</li>
                   <li><strong>Admin Users Only:</strong> Username and password for content management (admin access only)</li>
-                  <li><strong>Local Storage:</strong> Saved question IDs and personal notes (stored only on your device)</li>
+                  <li><strong>Local Storage:</strong> Saved question IDs and personal notes (stored only on your device, works without account)</li>
                   <li><strong>AI Usage:</strong> When you use our AI explanation feature, your question content is sent to Google Gemini AI for processing</li>
                   <li><strong>Website Analytics:</strong> Anonymous usage data to improve our platform</li>
                 </ul>
               </div>
               
               <div>
+                <h3 className="text-xl font-semibold text-[#192A41] mb-3">Student Account Data</h3>
+                <p className="text-gray-700 mb-4">
+                  If you create a student account, we store the following information on our servers:
+                </p>
+                <ul className="list-disc list-inside text-gray-700 space-y-2">
+                  <li><strong>Account Information:</strong> Username, email address, and encrypted password</li>
+                  <li><strong>Saved Questions:</strong> Question IDs you save for later review (synced across devices)</li>
+                  <li><strong>Test Results:</strong> Mock test scores, completion dates, and performance metrics</li>
+                  <li><strong>Activity History:</strong> Topics and subtopics you visit, with timestamps</li>
+                  <li><strong>Dashboard Statistics:</strong> Aggregated data like total saved questions, tests completed, and average scores</li>
+                </ul>
+                <p className="text-gray-700 mt-4">
+                  <strong>Note:</strong> You can use our platform without creating an account. All features work with local storage only.
+                </p>
+              </div>
+
+              <div>
                 <h3 className="text-xl font-semibold text-[#192A41] mb-3">Local Data Storage</h3>
                 <p className="text-gray-700 mb-4">
-                  The following data is stored locally on your device and is not sent to our servers:
+                  The following data is stored locally on your device and is not sent to our servers (unless you have an account):
                 </p>
                 <ul className="list-disc list-inside text-gray-700 space-y-2">
                   <li>Saved question IDs (for bookmarking questions)</li>
@@ -66,6 +85,9 @@ function PrivacyPolicy() {
                   <li>Your selected answers during practice sessions</li>
                   <li>AI explanation requests (temporarily processed by Google Gemini AI)</li>
                 </ul>
+                <p className="text-gray-700 mt-4">
+                  <strong>Account Sync:</strong> If you create an account, your saved questions are synced between local storage and your account for access across devices.
+                </p>
               </div>
 
               <div>
@@ -94,6 +116,9 @@ function PrivacyPolicy() {
                   <li>Enable topic-wise practice across subjects (Aptitude, Reasoning, Quantitative)</li>
                   <li>Deliver online mock tests with 30-minute timer</li>
                   <li>Enable local storage of saved questions and floating notes</li>
+                  <li>Provide student accounts with dashboard to track progress</li>
+                  <li>Sync saved questions, test results, and activity history across devices (for registered students)</li>
+                  <li>Generate personalized statistics and performance metrics (for registered students)</li>
                   <li>Provide AI explanations using Google Gemini AI</li>
                   <li>Support admin content management system</li>
                 </ul>
@@ -157,6 +182,19 @@ function PrivacyPolicy() {
               </p>
               
               <div>
+                <h3 className="text-lg font-semibold text-[#192A41] mb-3">Student Account Control</h3>
+                <ul className="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                  <li>Create or delete your student account at any time</li>
+                  <li>Access and view all your saved data through the dashboard</li>
+                  <li>Remove saved questions from your account</li>
+                  <li>View your test results and performance history</li>
+                  <li>Update your account information (username, email)</li>
+                  <li>Logout from your account to stop syncing data</li>
+                  <li>Contact us to request complete account deletion and data removal</li>
+                </ul>
+              </div>
+
+              <div>
                 <h3 className="text-lg font-semibold text-[#192A41] mb-3">Local Data Control</h3>
                 <ul className="list-disc list-inside text-gray-700 space-y-1 text-sm">
                   <li>Clear your saved questions and notes from your device</li>
@@ -169,10 +207,11 @@ function PrivacyPolicy() {
               <div>
                 <h3 className="text-lg font-semibold text-[#192A41] mb-3">Website Usage</h3>
                 <ul className="list-disc list-inside text-gray-700 space-y-1 text-sm">
-                  <li>Use our services without creating an account</li>
+                  <li>Use our services without creating an account (all features available)</li>
                   <li>Access all educational content without registration</li>
+                  <li>Create a student account optionally to sync data across devices</li>
                   <li>Control cookie preferences through your browser</li>
-                  <li>Contact us with any privacy concerns</li>
+                  <li>Contact us with any privacy concerns or data deletion requests</li>
                 </ul>
               </div>
             </div>
@@ -187,9 +226,13 @@ function PrivacyPolicy() {
               </p>
               <ul className="list-disc list-inside text-gray-700 space-y-2">
                 <li><strong>Essential Cookies:</strong> Required for basic site functionality</li>
+                <li><strong>Authentication Cookies:</strong> Secure session tokens for student and admin accounts (student_token, token)</li>
                 <li><strong>Performance Cookies:</strong> Help us understand site usage</li>
                 <li><strong>Functional Cookies:</strong> Remember your preferences</li>
               </ul>
+              <p className="text-gray-700 mt-4">
+                <strong>Note:</strong> Authentication cookies are only set when you log in to a student or admin account. You can clear these cookies by logging out.
+              </p>
             </div>
           </section>
 

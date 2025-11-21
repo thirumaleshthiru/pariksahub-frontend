@@ -49,7 +49,9 @@ function TermsOfUse() {
                 <li>Practice questions for competitive exams (SSC, RRB, Banking)</li>
                 <li>Topic-wise practice across subjects (Aptitude, Reasoning, Quantitative)</li>
                 <li>Online mock tests with 30-minute timer</li>
-                <li>Save questions locally for later review</li>
+                <li>Save questions locally for later review (works without account)</li>
+                <li>Student accounts with dashboard to track progress (optional)</li>
+                <li>Sync saved questions, test results, and activity across devices (for registered students)</li>
                 <li>Floating notes feature for personal study notes</li>
                 <li>AI explanations using Google Gemini AI</li>
                 <li>Admin panel for content management</li>
@@ -64,16 +66,30 @@ function TermsOfUse() {
             </h2>
             <div className="space-y-4">
               <p className="text-gray-700 mb-4">
-                PariksaHub is designed to be used without requiring user accounts. However, we do have admin accounts for content management:
+                PariksaHub can be used without requiring user accounts. However, we offer optional student accounts for enhanced features:
               </p>
               
               <div>
-                <h3 className="text-lg font-semibold text-[#192A41] mb-3">Public Usage</h3>
+                <h3 className="text-lg font-semibold text-[#192A41] mb-3">Public Usage (No Account Required)</h3>
                 <ul className="list-disc list-inside text-gray-700 space-y-1 text-sm">
                   <li>No account required to use our educational services</li>
                   <li>All practice questions and tests are freely accessible</li>
                   <li>You can save questions and notes locally on your device</li>
-                  <li>No personal information collection from regular users</li>
+                  <li>All features work without registration</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold text-[#192A41] mb-3">Student Accounts (Optional)</h3>
+                <ul className="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                  <li>Create a free student account to track your progress</li>
+                  <li>Sync saved questions across multiple devices</li>
+                  <li>View your test results and performance history</li>
+                  <li>Track topics you've visited</li>
+                  <li>Access personalized dashboard with statistics</li>
+                  <li>You are responsible for keeping your account credentials secure</li>
+                  <li>You can delete your account at any time</li>
+                  <li>One account per person - creating multiple accounts is prohibited</li>
                 </ul>
               </div>
               
@@ -152,8 +168,17 @@ function TermsOfUse() {
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-[#192A41] mb-6">Privacy</h2>
             <div>
-              <p className="text-gray-700">
-                We don't collect personal information from regular users. Your saved questions and notes are stored only on your device. See our Privacy Policy for details.
+              <p className="text-gray-700 mb-4">
+                We respect your privacy and offer flexible data storage options:
+              </p>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                <li><strong>Without Account:</strong> Your saved questions and notes are stored only on your device</li>
+                <li><strong>With Student Account:</strong> Your account data (saved questions, test results, activity) is stored on our servers to sync across devices</li>
+                <li><strong>Data Control:</strong> You can delete your account and all associated data at any time</li>
+                <li><strong>No Sharing:</strong> We do not sell or share your personal data with third parties</li>
+              </ul>
+              <p className="text-gray-700 mt-4">
+                See our <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link> for complete details.
               </p>
             </div>
           </section>

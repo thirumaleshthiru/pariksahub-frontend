@@ -70,16 +70,43 @@ function Saved() {
       setLoading(true);
       
       // Get saved question IDs from localStorage
-      const savedIds = JSON.parse(localStorage.getItem('savedQuestions') || '[]');
+      const localSavedIds = JSON.parse(localStorage.getItem('savedQuestions') || '[]');
       
-      if (savedIds.length === 0) {
+      // Check if student is logged in and fetch from database
+      let dbSavedQuestions: QuestionItem[] = [];
+      let isLoggedIn = false;
+      
+      try {
+        const profileResponse = await axiosInstance.get('/api/student/profile');
+        if (profileResponse.status === 200) {
+          isLoggedIn = true;
+          const dashboardResponse = await axiosInstance.get('/api/student/dashboard');
+          dbSavedQuestions = dashboardResponse.data.savedQuestions || [];
+        }
+      } catch (err) {
+        // Not logged in, continue with localStorage only
+        isLoggedIn = false;
+      }
+
+      // Combine localStorage and database saved questions
+      const allSavedIds = new Set<string>();
+      
+      // Add localStorage IDs
+      localSavedIds.forEach((id: string) => allSavedIds.add(id));
+      
+      // Add database IDs
+      dbSavedQuestions.forEach((item: QuestionItem) => {
+        allSavedIds.add(item.question._id);
+      });
+
+      if (allSavedIds.size === 0) {
         setSavedQuestions([]);
         setLoading(false);
         return;
       }
 
       // Fetch each question with its options
-      const questionsPromises = savedIds.map(async (questionId: string) => {
+      const questionsPromises = Array.from(allSavedIds).map(async (questionId: string) => {
         try {
           const response = await axiosInstance.get(`/api/questions/id/${questionId}`);
           return response.data;
@@ -106,16 +133,20 @@ function Saved() {
     }
   };
 
-  const removeSavedQuestion = (questionId: string) => {
+  const removeSavedQuestion = async (questionId: string) => {
     try {
-      // Get current saved questions from localStorage
+      // Remove from localStorage
       const currentSaved = JSON.parse(localStorage.getItem('savedQuestions') || '[]') as string[];
-      
-      // Remove the question ID
       const updatedSaved = currentSaved.filter((id: string) => id !== questionId);
-      
-      // Update localStorage
       localStorage.setItem('savedQuestions', JSON.stringify(updatedSaved));
+      
+      // Remove from database if logged in
+      try {
+        await axiosInstance.post('/api/student/remove-saved-question', { questionId });
+      } catch (err) {
+        // Not logged in or error, continue with localStorage removal
+        console.log('Not logged in or error removing from DB:', err);
+      }
       
       // Update state to remove the question from the UI
       setSavedQuestions(prev => 

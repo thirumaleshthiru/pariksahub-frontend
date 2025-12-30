@@ -16,49 +16,41 @@ interface FAQClientProps {
   questions: Question[];
 }
 
-// Function to detect language from code content
 function detectLanguage(code: string): string {
   const codeLower = code.toLowerCase().trim();
-  
-  // Python indicators
-  if (codeLower.includes('def ') || codeLower.includes('import ') || 
-      codeLower.includes('print(') || codeLower.includes('if __name__') ||
-      codeLower.includes('lambda ') || codeLower.includes('yield ')) {
+
+  if (codeLower.includes('def ') || codeLower.includes('import ') ||
+    codeLower.includes('print(') || codeLower.includes('if __name__') ||
+    codeLower.includes('lambda ') || codeLower.includes('yield ')) {
     return 'python';
   }
-  
-  // JavaScript indicators
-  if (codeLower.includes('function ') || codeLower.includes('const ') || 
-      codeLower.includes('let ') || codeLower.includes('console.log') ||
-      codeLower.includes('=>') || codeLower.includes('require(')) {
+
+  if (codeLower.includes('function ') || codeLower.includes('const ') ||
+    codeLower.includes('let ') || codeLower.includes('console.log') ||
+    codeLower.includes('=>') || codeLower.includes('require(')) {
     return 'javascript';
   }
-  
-  // Java indicators
+
   if (codeLower.includes('public class') || codeLower.includes('public static void') ||
-      codeLower.includes('system.out.println')) {
+    codeLower.includes('system.out.println')) {
     return 'java';
   }
-  
-  // HTML indicators
+
   if (codeLower.includes('<html') || codeLower.includes('<!doctype') ||
-      codeLower.includes('<div') || codeLower.includes('<p>')) {
+    codeLower.includes('<div') || codeLower.includes('<p>')) {
     return 'html';
   }
-  
-  // CSS indicators
-  if (codeLower.includes('{') && codeLower.includes(':') && 
-      (codeLower.includes('color') || codeLower.includes('margin') || codeLower.includes('padding'))) {
+
+  if (codeLower.includes('{') && codeLower.includes(':') &&
+    (codeLower.includes('color') || codeLower.includes('margin') || codeLower.includes('padding'))) {
     return 'css';
   }
-  
-  // Default to text if can't detect
+
   return 'text';
 }
 
-// Function to parse HTML and replace code blocks with syntax-highlighted versions
 function parseAnswerWithSyntaxHighlighting(
-  html: string, 
+  html: string,
   questionId: string,
   onCopyCode: (code: string, blockId: string) => void,
   copied: string | null
@@ -66,40 +58,36 @@ function parseAnswerWithSyntaxHighlighting(
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
   let codeBlockIndex = 0;
-  
-  // Regex to match <pre><code>...</code></pre> blocks
-  const codeBlockRegex = /<pre><code[^>]*>([\s\S]*?)<\/code><\/pre>/g;
+
+  const codeBlockRegex = /<pre[^>]*>([\s\S]*?)<\/pre>/g;
   let match;
-  
+
   while ((match = codeBlockRegex.exec(html)) !== null) {
-    // Add content before the code block
     if (match.index > lastIndex) {
       const beforeHtml = html.substring(lastIndex, match.index);
       parts.push(
-        <div 
+        <div
           key={`html-${lastIndex}`}
           className="faq-content text-white/80"
           dangerouslySetInnerHTML={{ __html: beforeHtml }}
         />
       );
     }
-    
-    // Extract and clean the code
+
     let code = match[1];
-    // Decode HTML entities
     code = code
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&amp;/g, '&')
       .replace(/&quot;/g, '"')
       .replace(/&#39;/g, "'")
-      .replace(/&nbsp;/g, ' ');
-    
-    // Detect language
+      .replace(/&nbsp;/g, ' ')
+      .replace(/<br>/g, '\n')
+      .trim();
+
     const language = detectLanguage(code);
     const blockId = `${questionId}-code-${codeBlockIndex}`;
-    
-    // Add syntax-highlighted code block with copy button
+
     parts.push(
       <div key={`code-${match.index}`} className="my-4">
         <div className="flex items-center justify-between mb-2 pb-2 border-b border-gray-800">
@@ -140,34 +128,32 @@ function parseAnswerWithSyntaxHighlighting(
         </SyntaxHighlighter>
       </div>
     );
-    
+
     lastIndex = match.index + match[0].length;
     codeBlockIndex++;
   }
-  
-  // Add remaining content after the last code block
+
   if (lastIndex < html.length) {
     const afterHtml = html.substring(lastIndex);
     parts.push(
-      <div 
+      <div
         key={`html-${lastIndex}`}
         className="faq-content text-white/80"
         dangerouslySetInnerHTML={{ __html: afterHtml }}
       />
     );
   }
-  
-  // If no code blocks found, return original HTML
+
   if (parts.length === 0) {
     return [
-      <div 
+      <div
         key="html-full"
         className="faq-content text-white/80"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     ];
   }
-  
+
   return parts;
 }
 
@@ -246,16 +232,20 @@ export default function FAQClient({ questions }: FAQClientProps) {
           .faq-content li {
             color: rgba(255, 255, 255, 0.8);
           }
+          
+          .faq-content pre {
+            display: none;
+          }
         `
       }} />
-      
+
       {questions.map((q, index) => {
         const questionId = q._id || `question-${index}`;
-        const answerParts = useMemo(() => 
-          parseAnswerWithSyntaxHighlighting(q.answer, questionId, copyCode, copied), 
-          [q.answer, questionId, copied]
+        const answerParts = useMemo(() =>
+          parseAnswerWithSyntaxHighlighting(q.answer, questionId, copyCode, copied),
+          [q.answer, questionId]
         );
-        
+
         return (
           <article
             id={`question-${index}`}
@@ -265,11 +255,11 @@ export default function FAQClient({ questions }: FAQClientProps) {
             role="article"
           >
             <div className="mb-4">
-              <h3 
+              <h3
                 id={`faq-question-${index}`}
                 className="text-lg sm:text-xl font-bold text-white leading-snug"
               >
-                <span 
+                <span
                   className="inline-flex items-center justify-center w-6 h-6 bg-[#6366F1] text-white font-bold text-sm rounded-full align-middle mr-3 md:mr-2"
                   aria-label={`Question number ${index + 1}`}
                 >
@@ -278,8 +268,8 @@ export default function FAQClient({ questions }: FAQClientProps) {
                 {q.question}
               </h3>
             </div>
-            
-            <div 
+
+            <div
               className="md:ml-8"
               role="region"
               aria-label="Answer"
@@ -292,4 +282,3 @@ export default function FAQClient({ questions }: FAQClientProps) {
     </div>
   );
 }
-

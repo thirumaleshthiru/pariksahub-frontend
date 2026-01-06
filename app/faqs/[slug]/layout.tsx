@@ -2,9 +2,8 @@ import type { Metadata } from 'next';
 import JsonLdSchema from '../../../components/JsonLdSchema';
 import axiosInstance from '../../../utils/axiosInstance';
 
-// Force dynamic rendering to prevent stale cache
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// Enable ISR - revalidate every 60 seconds for better performance
+export const revalidate = 60;
 
 type Props = {
   params: Promise<{ slug: string }>;

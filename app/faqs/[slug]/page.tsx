@@ -6,9 +6,8 @@ import { fetchFromApi } from '../../../utils/serverApi';
 import FAQClient from './FAQClient';
 import ScrollToTopButton from '../../../components/ScrollToTopButton';
 
-// Force dynamic rendering to prevent stale cache
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// Enable ISR - revalidate every 60 seconds for better performance
+export const revalidate = 60;
 
 interface Question {
   _id?: string;

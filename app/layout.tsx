@@ -129,13 +129,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Resource hints for faster loading */}
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL || ''} />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body>
         {/* Google Analytics - using Next.js Script component for proper ordering */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-E717Z3TMN6"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics-config" strategy="afterInteractive">
+        <Script id="google-analytics-config" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -146,11 +152,11 @@ export default function RootLayout({
             });
           `}
         </Script>
-        
+
         {/* JSON-LD Schema - injected into head via useEffect (after analytics) */}
         <JsonLdSchema schema={organizationSchema} id="organization-schema" />
         <JsonLdSchema schema={websiteSchema} id="website-schema" />
-        
+
         <div className="flex flex-col min-h-screen">
           <CustomNavbar />
           <ScrollToTop />

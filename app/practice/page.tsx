@@ -3,7 +3,8 @@ import { ArrowUpRight } from 'lucide-react';
 import { fetchFromApi } from '../../utils/serverApi';
 import { formatDisplayText } from '../../utils/textUtils';
 
-export const dynamic = 'force-dynamic';
+// Enable ISR - revalidate every 60 seconds instead of force-dynamic
+export const revalidate = 60;
 
 interface Topic {
   _id: string;

@@ -172,9 +172,17 @@ export default function FAQClient({ questions }: FAQClientProps) {
     <div className="space-y-6" role="list" aria-label="Frequently asked questions and answers">
       <style dangerouslySetInnerHTML={{
         __html: `
+          .faq-content {
+            overflow-wrap: break-word;
+            word-break: break-word;
+            max-width: 100%;
+          }
+
           .faq-content p {
             margin-bottom: 0.75rem;
             line-height: 1.6;
+            overflow-wrap: break-word;
+            word-break: break-word;
           }
           
           .faq-content ul {
@@ -193,11 +201,15 @@ export default function FAQClient({ questions }: FAQClientProps) {
             margin-bottom: 0.25rem !important;
             line-height: 1.6 !important;
             display: list-item !important;
+            overflow-wrap: break-word;
+            word-break: break-word;
           }
           
           .faq-content strong {
             font-weight: 600;
             color: #ffffff;
+            overflow-wrap: break-word;
+            word-break: break-word;
           }
           
           .faq-content em {
@@ -211,6 +223,8 @@ export default function FAQClient({ questions }: FAQClientProps) {
           .faq-content a {
             color: #6366F1;
             text-decoration: underline;
+            overflow-wrap: break-word;
+            word-break: break-word;
           }
           
           .faq-content a:hover {
@@ -223,6 +237,8 @@ export default function FAQClient({ questions }: FAQClientProps) {
             font-weight: 700;
             color: #ffffff;
             margin: 1rem 0 0.5rem 0;
+            overflow-wrap: break-word;
+            word-break: break-word;
           }
           
           .faq-content p {

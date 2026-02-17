@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${formattedTopic} Important Topics for Preparation`,
-    description: `Explore ${formattedTopic}'s important topics for competitive exam preparation, technical interview preparation, programming interview preparation, etc. Practice MCQs with detailed solutions and explanations.`,
+    description: `Explore ${formattedTopic}'s important topics for your exam preparation, technical interview preparation, or programming interview preparation, etc. Practice MCQs with detailed solutions and explanations.`,
     keywords: [
       `${formattedTopic} topics`,
       `${formattedTopic} practice`,

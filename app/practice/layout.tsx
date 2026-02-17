@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import JsonLdSchema from '../../components/JsonLdSchema';
 
 export const metadata: Metadata = {
-  title: 'Practice Questions for Competitive Exams',
-  description: 'Free competitive exam practice questions with detailed solutions. MCQs for aptitude, reasoning, quantitative ability, and technical topics for SSC, RRB, and banking exams.',
+  title: 'Practice Topics for Government or Technical Exams',
+  description: 'Government and programming exam practice questions with detailed solutions. Aptitude, Reasoning, Programming, and more for SSC, RRB, Banking exams, and IT jobs.',
   keywords: [
     'competitive exam practice',
     'aptitude questions',

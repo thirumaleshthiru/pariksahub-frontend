@@ -3,7 +3,7 @@ import JsonLdSchema from '../../components/JsonLdSchema';
 
 export const metadata: Metadata = {
   title: 'Frequently Asked Interview Questions with Answers',
-  description: 'Frequently asked questions about competitive exams, study resources, exam patterns, preparation strategies and more. Get answers to common queries.',
+  description: 'Frequently asked questions in competitive exams, technical interviews, exam patterns, preparation strategies, and more. Get an idea of what to expect before you prepare and prepare accordingly.',
   keywords: [
     'FAQs',
     'frequently asked questions',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Frequently Asked Interview Questions with Answers',
-    description: 'Frequently asked questions about competitive exams, study resources, exam patterns, and preparation strategies. Get answers to common queries.',
+    description: 'Frequently asked questions in competitive exams, technical interviews, exam patterns, preparation strategies, and more. Get an idea of what to expect before you prepare and prepare accordingly.',
     url: '/faqs',
     type: 'website',
   },

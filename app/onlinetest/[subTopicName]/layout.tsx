@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { formatDisplayText } from '../../../utils/textUtils';
 import JsonLdSchema from '../../../components/JsonLdSchema';
 import axiosInstance from '../../../utils/axiosInstance';
+import test, { mock } from 'node:test';
+import { sign } from 'crypto';
 
 type Props = {
   params: Promise<{ subTopicName: string }>;
@@ -21,9 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : `${formattedSubTopic} Online Mock Test | PariksaHub`;
 
     const description = questionCount > 0
-      ? `Take ${formattedSubTopic} mock test with ${questionCount} questions in 30 minutes. Real exam simulation with automatic scoring and instant results for competitive exam preparation.`
+      ? `Take ${formattedSubTopic} mock test with ${questionCount} questions in 30 minutes. No sign-up required, always free, and you can visit anytime to practice.`
       : `Take ${formattedSubTopic} online mock test with 30 minute timer. Practice competitive exam questions with automatic scoring and instant results.`;
-
     const keywords = questionCount > 0
       ? `${formattedSubTopic} mock test, ${formattedSubTopic} online test, ${questionCount} questions, competitive exam mock test, timed practice test, online assessment`
       : `${formattedSubTopic} mock test, competitive exam mock test, timed practice test, online assessment`;
@@ -53,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   // Fallback metadata
   return {
-      title: `${formattedSubTopic} Online Mock Test | PariksaHub`,
+    title: `${formattedSubTopic} Online Mock Test | PariksaHub`,
     description: `Take ${formattedSubTopic} online mock test with 30 minute timer. Practice competitive exam questions with automatic scoring and instant results.`,
     keywords: [`${formattedSubTopic} mock test`, 'competitive exam mock test', 'timed practice test', 'online assessment'],
     alternates: {

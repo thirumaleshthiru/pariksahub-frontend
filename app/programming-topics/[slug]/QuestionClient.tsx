@@ -267,9 +267,15 @@ export default function QuestionClient({ questions }: QuestionClientProps) {
     <div className="space-y-8">
       <style dangerouslySetInnerHTML={{
         __html: `
+          .prose-custom {
+            word-break: break-word;
+            overflow-wrap: anywhere;
+          }
+          
           .prose-custom p {
             margin-bottom: 0.5rem;
             line-height: 1.6;
+            white-space: normal !important;
           }
           
           .prose-custom ul {
@@ -288,6 +294,7 @@ export default function QuestionClient({ questions }: QuestionClientProps) {
             margin-bottom: 0.25rem !important;
             line-height: 1.6 !important;
             display: list-item !important;
+            white-space: normal !important;
           }
           
           .prose-custom strong {
@@ -337,12 +344,16 @@ export default function QuestionClient({ questions }: QuestionClientProps) {
             margin: 0 !important;
             background-color: #1e1e1e !important;
             color: #d4d4d4 !important;
+            white-space: pre-wrap !important;
+            word-break: break-word !important;
           }
           
           .prose-custom code {
             margin: 0 !important;
             background-color: #1e1e1e !important;
             color: #d4d4d4 !important;
+            white-space: pre-wrap !important;
+            word-break: break-word !important;
           }
         `
       }} />
@@ -473,8 +484,11 @@ export default function QuestionClient({ questions }: QuestionClientProps) {
                                     padding: '1rem',
                                     fontSize: '0.875rem',
                                     lineHeight: '1.5',
-                                    margin: 0,
-                                    backgroundColor: '#1e1e1e',
+                                margin: 0,
+                                backgroundColor: '#1e1e1e',
+                                whiteSpace: 'pre-wrap',
+                                wordBreak: 'break-word',
+                                overflowX: 'auto',
                                   }}
                                   PreTag="div"
                                 >
@@ -533,6 +547,9 @@ export default function QuestionClient({ questions }: QuestionClientProps) {
                                 lineHeight: '1.5',
                                 margin: 0,
                                 backgroundColor: '#1e1e1e',
+                                whiteSpace: 'pre-wrap',
+                                wordBreak: 'break-word',
+                                overflowX: 'auto',
                               }}
                               PreTag="div"
                             >

@@ -80,7 +80,7 @@ export default async function TestTopics() {
 
       {/* Topics Grid */}
       <section id="results-section" className="relative py-12 bg-gradient-to-b from-[#0A0E27] to-[#1a1f3a]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 break-words">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-8">
             <div>
               <div className="text-xs font-bold text-[#6366F1] mb-2 tracking-widest uppercase">Available Now</div>

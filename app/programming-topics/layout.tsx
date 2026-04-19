@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import JsonLdSchema from '../../components/JsonLdSchema';
 
 export const metadata: Metadata = {
-  title: 'Programming Topics & Code Questions - Python, Java, DSA, Interview Prep',
+  title: 'Learn Coding with Practice Problems for Beginners',
   description: 'Explore programming topics with code examples, solutions, and explanations. Practice Python programs, DSA problems, interview questions, and coding challenges with multiple solutions.',
   keywords: [
     'programming topics',

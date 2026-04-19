@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import JsonLdSchema from '../../components/JsonLdSchema';
 
 export const metadata: Metadata = {
-  title: 'Practice Random Questions from General Aptitude, Reasoning, Programming, and more',
+  title: 'Practice Random Topics from General Aptitude, Reasoning, Programming, and more',
   description: 'Practice random topics from all subjects for competitive exam preparation. Get diverse questions across multiple areas with instant practice tests.',
   keywords: [
     'random practice',
@@ -13,14 +13,14 @@ export const metadata: Metadata = {
     'exam preparation'
   ],
   openGraph: {
-    title: 'Random Practice - Practice Random Questions',
+    title: 'RPractice Random Topics from General Aptitude, Reasoning, Programming, and more',
     description: 'Practice random topics from all subjects for competitive exam preparation. Get diverse questions across multiple areas with instant practice tests.',
     url: '/random-topics',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Random Practice - Practice Random Questions',
+    title: 'Practice Random Topics from General Aptitude, Reasoning, Programming, and more',
     description: 'Practice random topics from all subjects for competitive exam preparation. Get diverse questions across multiple areas with instant practice tests.',
   },
   alternates: {

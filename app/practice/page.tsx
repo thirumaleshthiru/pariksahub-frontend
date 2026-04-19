@@ -126,8 +126,7 @@ export default async function Practice() {
                 <span className="block bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-transparent bg-clip-text">PariksaHub?</span>
               </h2>
               <p className="text-base sm:text-lg text-gray-400 leading-relaxed">
-                Comprehensive practice materials for competitive exams with detailed explanations to help you master every concept.
-              </p>
+                Comprehensive practice materials for competitive exams with detailed explanations to help you understand and practice every concept.              </p>
             </div>
             <div className="space-y-5">
               <div className="bg-[#161B33] border border-gray-800 rounded-xl p-5">

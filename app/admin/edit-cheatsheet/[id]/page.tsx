@@ -528,10 +528,25 @@ function EditCheatsheet() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      
       <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-8">
-        <div>
-          <button onClick={() => router.push('/admin/manage-cheatsheets')} className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1 mb-4 mt-20"> <ArrowLeft className="h-4 w-4" /> Back</button>
+        <div className="flex items-center justify-between mt-20 mb-4">
+          <button
+            type="button"
+            onClick={() => router.push('/admin/manage-cheatsheets')}
+            className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </button>
+          <button
+            type="submit"
+            form="cheatsheet-form"
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <Save className="h-4 w-4" />
+            {saving ? 'Saving...' : 'Save'}
+          </button>
         </div>
         {/* Messages */}
         {success && (

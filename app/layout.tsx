@@ -10,10 +10,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://pariksahub.com'),
   title: {
-    default: "PariksaHub | Free Competitive Exam Practice Tests & Mock Quizzes",
+    default: "PariksaHub | Prepare for Competitive Exams",
     template: "%s"
   },
-  description: "PariksaHub offers free competitive exam practice tests, mock quizzes, and topic-wise drills for SSC, RRB, banking, campus placements, and more.",
+  description: "PariksaHub is a platform that helps students prepare for government exams, campus placements, and technical interviews.",
   keywords: [
     "competitive exam practice",
     "aptitude questions",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "PariksaHub",
     title: "PariksaHub | Free Competitive Exam Practice Tests & Mock Quizzes",
-    description: "PariksaHub offers free competitive exam practice tests, mock quizzes, and topic-wise drills for SSC, RRB, banking, campus placements, and more.",
+    description: "PariksaHub is a platform that helps students prepare for government exams, campus placements, and technical interviews.",
     images: [
       {
         url: "/assets/PariksaHub.png",

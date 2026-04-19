@@ -107,7 +107,7 @@ export default async function FAQs({ searchParams }: FAQsPageProps) {
         {/* Gradient Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-to-b from-[#6366F1] to-transparent rounded-full blur-[100px] opacity-20"></div>
 
-        <div className="relative max-w-6xl mx-auto px-6 text-center z-10">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center z-10">
 
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black mb-5 leading-[1.1] tracking-tight">
@@ -129,7 +129,7 @@ export default async function FAQs({ searchParams }: FAQsPageProps) {
       {/* Featured Section */}
       {featuredFAQs.length > 0 && !search && (
         <section className="relative py-12 bg-gradient-to-b from-[#0A0E27] to-[#1a1f3a]">
-          <div className="max-w-6xl mx-auto px-6">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6">
             <div className="mb-8">
               <div className="text-xs font-bold text-[#6366F1] mb-2 tracking-widest uppercase">Featured</div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
@@ -219,7 +219,7 @@ export default async function FAQs({ searchParams }: FAQsPageProps) {
 
       {/* All FAQs */}
       <section id="results-section" className="relative py-12 bg-gradient-to-b from-[#0A0E27] to-[#1a1f3a]">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 break-words">
           <div className="flex items-end justify-between mb-8">
             <div>
               <div className="text-xs font-bold text-[#6366F1] mb-2 tracking-widest uppercase">Available Now</div>

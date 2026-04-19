@@ -97,7 +97,7 @@ export default async function FAQDetail({ params }: FAQDetailPageProps) {
         {/* Gradient Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-to-b from-[#6366F1] to-transparent rounded-full blur-[100px] opacity-20"></div>
 
-        <div className="relative max-w-4xl mx-auto px-6 z-10">
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 z-10">
           {/* Header */}
           <div className="mb-3 sm:mb-6">
             <nav aria-label="Breadcrumb navigation">
@@ -167,7 +167,7 @@ export default async function FAQDetail({ params }: FAQDetailPageProps) {
 
       {/* Content Section */}
       <section className="relative pt-2 pb-6 bg-gradient-to-b from-[#0A0E27] to-[#1a1f3a]">
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 break-words">
           {/* Questions */}
           {questions.length > 0 ? (
             <div className="space-y-4">

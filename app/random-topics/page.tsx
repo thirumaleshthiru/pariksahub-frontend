@@ -89,7 +89,7 @@ export default async function RandomTopics({ searchParams }: RandomTopicsPagePro
         {/* Gradient Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-to-b from-[#6366F1] to-transparent rounded-full blur-[100px] opacity-20"></div>
         
-        <div className="relative max-w-6xl mx-auto px-6 text-center z-10">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center z-10">
           <div className="inline-block mb-5 px-4 py-1.5 bg-[#6366F1] bg-opacity-10 backdrop-blur-sm border border-[#6366F1] border-opacity-30 rounded-full">
             <span className="text-xs font-bold text-white tracking-wider uppercase">Random Practice</span>
           </div>
@@ -123,7 +123,7 @@ export default async function RandomTopics({ searchParams }: RandomTopicsPagePro
 
       {/* Topics Section */}
       <section id="results-section" className="relative py-12 bg-gradient-to-b from-[#0A0E27] to-[#1a1f3a]">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 break-words">
           <div className="flex items-end justify-between mb-8">
             <div>
               <div className="text-xs font-bold text-[#6366F1] mb-2 tracking-widest uppercase">Available Now</div>

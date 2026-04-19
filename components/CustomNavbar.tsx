@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, User } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import axiosInstance from '@/utils/axiosInstance';
 
 const mainNavLinks = [
@@ -17,12 +17,20 @@ const mainNavLinks = [
   { to: "/saved", label: "Saved" }
 ];
 
+const prefetchedRoutes = [
+  '/',
+  ...mainNavLinks.map((link) => link.to),
+  '/student/register',
+  '/student/login',
+  '/student/dashboard',
+];
+
 function CustomNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isStudentLoggedIn, setIsStudentLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     checkStudentAuth();
@@ -41,12 +49,14 @@ function CustomNavbar() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      checkStudentAuth();
-    }, 200);
+    const timer = window.setTimeout(() => {
+      prefetchedRoutes.forEach((route) => {
+        router.prefetch(route);
+      });
+    }, 150);
 
-    return () => clearTimeout(timer);
-  }, [pathname]);
+    return () => window.clearTimeout(timer);
+  }, [router]);
 
   const checkStudentAuth = async () => {
     try {
@@ -56,7 +66,7 @@ function CustomNavbar() {
       } else {
         setIsStudentLoggedIn(false);
       }
-    } catch (error) {
+    } catch {
       setIsStudentLoggedIn(false);
     } finally {
       setLoading(false);
@@ -84,7 +94,7 @@ function CustomNavbar() {
         }`}>
         <div className="max-w-full mx-auto px-4 sm:px-4 lg:px-4 mr-4 ml-4">
           <div className="flex items-center md:justify-around justify-between ">
-            <Link href="/" className="flex-shrink-0 group" prefetch={false}>
+            <Link href="/" className="flex-shrink-0 group">
               <Image src="/assets/logo.png" alt="PariksaHub Logo Image" width={150} height={50} />
             </Link>
 
@@ -94,7 +104,6 @@ function CustomNavbar() {
                   <Link
                     key={link.to}
                     href={link.to}
-                    prefetch={false}
                     className="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-all duration-300 hover:scale-105"
                   >
                     {link.label}
@@ -106,7 +115,6 @@ function CustomNavbar() {
                   {isStudentLoggedIn ? (
                     <Link
                       href="/student/dashboard"
-                      prefetch={false}
                       className="flex items-center space-x-2 text-gray-700 hover:text-indigo-600 px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105"
                     >
                       <User className="h-5 w-5" />
@@ -116,14 +124,12 @@ function CustomNavbar() {
                     <>
                       <Link
                         href="/student/register"
-                        prefetch={false}
                         className="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-all duration-300 hover:scale-105"
                       >
                         Register
                       </Link>
                       <Link
                         href="/student/login"
-                        prefetch={false}
                         className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-all duration-300 hover:scale-105"
                       >
                         Login
@@ -169,7 +175,6 @@ function CustomNavbar() {
               <Link
                 key={link.to}
                 href={link.to}
-                prefetch={false}
                 onClick={() => setIsOpen(false)}
                 className="block w-full text-left py-3 px-4 text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition-all duration-300 hover:scale-105"
               >
@@ -181,7 +186,6 @@ function CustomNavbar() {
                 {isStudentLoggedIn ? (
                   <Link
                     href="/student/dashboard"
-                    prefetch={false}
                     onClick={() => setIsOpen(false)}
                     className="flex items-center space-x-2 w-full text-left py-3 px-4 text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition-all duration-300"
                   >
@@ -192,7 +196,6 @@ function CustomNavbar() {
                   <>
                     <Link
                       href="/student/register"
-                      prefetch={false}
                       onClick={() => setIsOpen(false)}
                       className="block w-full text-left py-3 px-4 text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition-all duration-300"
                     >
@@ -200,7 +203,6 @@ function CustomNavbar() {
                     </Link>
                     <Link
                       href="/student/login"
-                      prefetch={false}
                       onClick={() => setIsOpen(false)}
                       className="block w-full text-center bg-indigo-600 text-white py-3 px-4 rounded-lg text-base font-medium hover:bg-indigo-700 transition-all duration-300 mt-2"
                     >

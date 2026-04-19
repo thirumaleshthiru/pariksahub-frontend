@@ -141,7 +141,7 @@ export default async function ExamPatternDetail({ params }: ExamPatternDetailPag
         {/* Gradient Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-to-b from-[#6366F1] to-transparent rounded-full blur-[100px] opacity-20"></div>
 
-        <div className="relative max-w-6xl mx-auto px-6 z-10">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 z-10">
           {/* Header */}
           <div className="no-print mb-3 sm:mb-6 print:hidden">
             <Link
